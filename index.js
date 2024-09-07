@@ -1,5 +1,27 @@
-const express = require('express');
+/**
+ * This module sets up and runs an Express server for handling API routes and serving 
+ * a React frontend. The Express server handles user account creation, login functionality, 
+ * and serves the React app for client-side routing.
+ *
+ * The API routes include:
+ *  - POST '/create-user': Creates a new user account after ensuring the database and table exist.
+ *  - POST '/login': Authenticates the user and provides a token for further requests.
+ * 
+ * Additionally, the server serves static assets from the 'storefront/build' directory, which
+ * contains the built React frontend. Any route that doesn't match an API endpoint is handled 
+ * by the catch-all route ('*') which serves the React app.
+ * 
+ * The Express application listens on port 3000 by default.
+ */
 
+// Importing necessary modules: Express for setting up the server, Path for resolving directory paths,
+// and user-defined controllers for handling user-related functionality.
+const express = require('express');
+const path = require('path');
+
+// Destructuring the user-related functions from the controllers module.
+// These functions handle tasks such as creating user accounts, creating databases and tables,
+// and authenticating users.
 const {
     createUserAccount,
     createDatabase,
@@ -7,10 +29,21 @@ const {
     userLogin,
 } = require("./api/controllers/users");
 
+// Initializing the Express application
 const app = express();
-app.use(express.json()); // Parse incoming JSON request bodies
 
-// Define the homepage function
+// Middleware to parse incoming JSON request bodies. This allows the server to handle requests 
+// with JSON payloads.
+app.use(express.json());
+
+// Serving static files from the 'storefront/build' directory. This is where the built React app
+// resides after running a production build of the frontend.
+app.use(express.static(path.join(__dirname, 'storefront/build')));
+
+/**
+ * Homepage route handler: Returns a simple JSON response when accessing the root URL ('/').
+ * This serves as an example of an API endpoint that returns JSON data.
+ */
 const homepage = (req, res) => {
     res.json({
         page: 'home page',
@@ -18,28 +51,51 @@ const homepage = (req, res) => {
     });
 };
 
-// Define the homepage route
+// Registering the homepage route. When a user visits the root URL ('/'), the server responds
+// with a JSON object containing the homepage details.
 app.get('/', homepage);
-// Define a route for creating user accounts
-app.post('/create-user', async (req, res) => {
 
-    await createDatabase('wifostore');
-    await createUserTable()
+/**
+ * Route for creating user accounts: 
+ * This route ensures that the 'wifostore' database and 'users' table exist, 
+ * then calls the 'createUserAccount' function to add a new user based on the request body.
+ */
+app.post('/create-user', async (req, res) => {
+    await createDatabase('wifostore'); // Ensures the database exists.
+    await createUserTable(); // Ensures the user table exists.
 
     try {
-        const user = await createUserAccount(req.body); // Call the function with user-provided details
-        res.status(201).json(user); // Respond with the created user details
+        // Creating a new user account based on the provided details (username, password, etc.).
+        const user = await createUserAccount(req.body);
+        res.status(201).json(user); // Responds with the created user's details upon success.
     } catch (err) {
-        const erroeMessage = { message: 'Failed to create user account.' }
-
-        res.status(500).json(err);
+        // If an error occurs during user creation, the server responds with a 500 status code
+        // and an error message.
+        res.status(500).json({ message: 'Failed to create user account.' });
     }
 });
 
-// Define the login route
+/**
+ * Route for user login: 
+ * This route accepts login credentials (username, password) and handles user authentication. 
+ * If the login is successful, it returns a token for further authentication.
+ */
 app.post('/login', userLogin);
 
-// Start the server
+/**
+ * Catch-all route handler for serving the React app:
+ * Any request that doesn't match the API routes is handled by this route, which serves the 
+ * 'index.html' file from the 'storefront/build' directory. This allows React Router to handle 
+ * client-side routing.
+ */
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'storefront/build', 'index.html'));
+});
+
+/**
+ * Starting the Express server on port 3000. The server listens for incoming connections and logs 
+ * a message indicating that it is running.
+ */
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
