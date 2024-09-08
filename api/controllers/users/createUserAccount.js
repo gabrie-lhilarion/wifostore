@@ -1,20 +1,25 @@
 /**
  * @module userAccountCreator
  *
- * This module defines the `createUserAccount` function that takes user-provided details and inserts them into the `users` table in the PostgreSQL database.
- * It hashes the user's password before storing it in the database to ensure security.
+ * This module defines the `createUserAccount` function that takes 
+ * user-provided details and inserts them into the `users` table 
+ * in the PostgreSQL database.
+ * It hashes the user's password before storing it in the database 
+ * to ensure security.
  */
 
 const bcrypt = require('bcryptjs'); // Import bcrypt for hashing passwords
-const db = require('../postgress'); // Import the database connection module
+const db = require('../database/postgress'); // Import the database connection module
 
 const SALT_ROUNDS = 10; // Define the number of salt rounds for password hashing
 
 /**
  * Creates a new user account in the database with the provided user details.
  * 
- * This function takes in user details such as first name, last name, email, phone, state, local area, street, house number, and password.
- * It hashes the password before inserting the user data into the `users` table in the PostgreSQL database.
+ * This function takes in user details such as first name, last name, 
+ * email, phone, state, local area, street, house number, and password.
+ * It hashes the password before inserting the user data into the `users` 
+ * table in the PostgreSQL database.
  * 
  * The `users` table includes the following fields:
  * - `first_name`: The user's first name.
@@ -29,9 +34,15 @@ const SALT_ROUNDS = 10; // Define the number of salt rounds for password hashing
  * 
  * @async
  * @function createUserAccount
- * @param {Object} userDetails - An object containing user details such as first name, last name, email, phone, state, local area, street, house number, and password.
- * @returns {Promise<Object>} - Returns an object with the inserted user's ID and email if successful.
- * @throws {Error} Throws an error if there is a problem with database insertion or password hashing.
+ * @param {Object} userDetails - An object containing user details such as 
+ * first name, last name, email, phone, state, local area, street, 
+ * house number, and password.
+ * 
+ * @returns {Promise<Object>} - Returns an object with the inserted 
+ * user's ID and email if successful.
+ * 
+ * @throws {Error} Throws an error if there is a problem with database 
+ * insertion or password hashing.
  */
 const createUserAccount = async (userDetails) => {
     const {
@@ -81,25 +92,18 @@ const createUserAccount = async (userDetails) => {
 };
 
 // Example usage
-const newUserDetails = {
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '1234567890',
-    state: 'California',
-    local_area: 'LA County',
-    street: 'Main St',
-    house_number: '123',
-    password: 'secretPassword123'
-};
+// const newUserDetails = {
+//     first_name: 'John',
+//     last_name: 'Doe',
+//     email: 'john1.doe@example.com',
+//     phone: '12345678901',
+//     state: 'California',
+//     local_area: 'LA County',
+//     street: 'Main St',
+//     house_number: '123',
+//     password: 'secretPassword123'
+// };
 
 // createUserAccount(newUserDetails)
-//     .then(user => {
-//         console.log('User account created successfully:', user);
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//     });
 
-//  export the function for use in routes
-module.exports = createUserAccount;
+module.exports = createUserAccount; 

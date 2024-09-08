@@ -5,7 +5,7 @@
  * The table includes fields for storing personal information, address details, and a password.
  */
 
-const db = require('../postgress'); // Import the database module
+const db = require('../database/postgress'); // Import the database module
 
 /**
  * Creates the `users` table in the specified PostgreSQL database if it does not already exist.
@@ -49,7 +49,8 @@ const createUserTable = async () => {
                     local_area VARCHAR(100),
                     street VARCHAR(100),
                     house_number VARCHAR(10),
-                    password VARCHAR(255) NOT NULL
+                    password VARCHAR(255) NOT NULL,
+                    role INT DEFAULT 0 
                 );
             `);
             console.log("Table 'users' created.");

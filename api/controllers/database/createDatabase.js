@@ -1,4 +1,4 @@
-const db = require('../postgress');
+const db = require('./postgress');
 
 const createDatabase = async (dbName) => {
     try {
