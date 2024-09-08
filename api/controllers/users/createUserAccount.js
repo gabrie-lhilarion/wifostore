@@ -95,8 +95,8 @@ const createUserAccount = async (userDetails) => {
 // const newUserDetails = {
 //     first_name: 'John',
 //     last_name: 'Doe',
-//     email: 'john.doe@example.com',
-//     phone: '1234567890',
+//     email: 'john1.doe@example.com',
+//     phone: '12345678901',
 //     state: 'California',
 //     local_area: 'LA County',
 //     street: 'Main St',
@@ -104,4 +104,6 @@ const createUserAccount = async (userDetails) => {
 //     password: 'secretPassword123'
 // };
 
-module.exports = createUserAccount;
+// createUserAccount(newUserDetails)
+
+module.exports = createUserAccount; 

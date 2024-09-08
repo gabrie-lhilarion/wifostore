@@ -75,9 +75,9 @@ app.post('/login', userLogin);
  * 'index.html' file from the 'storefront/build' directory. This allows React Router to handle 
  * client-side routing.
  */
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'storefront/build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'storefront/build', 'index.html'));
+// });
 
 /**
  * Starting the Express server on port 3000. The server listens for incoming connections and logs 
