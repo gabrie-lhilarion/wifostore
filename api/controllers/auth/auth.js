@@ -22,6 +22,6 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Example protected route
-app.get('/protected-endpoint', authenticateToken, (req, res) => {
-    res.json({ message: `Welcome, ${req.user.username}` });
-});
+// app.get('/protected-endpoint', authenticateToken, (req, res) => {
+//     res.json({ message: `Welcome, ${req.user.username}` });
+// });

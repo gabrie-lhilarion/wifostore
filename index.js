@@ -24,10 +24,11 @@ const path = require('path');
 // and authenticating users.
 const {
     createUserAccount,
-    createDatabase,
     createUserTable,
     userLogin,
 } = require("./api/controllers/users");
+
+const createDatabase = require("./api/controllers/database/createDatabase")
 
 // Initializing the Express application
 const app = express();
@@ -40,20 +41,6 @@ app.use(express.json());
 // resides after running a production build of the frontend.
 app.use(express.static(path.join(__dirname, 'storefront/build')));
 
-/**
- * Homepage route handler: Returns a simple JSON response when accessing the root URL ('/').
- * This serves as an example of an API endpoint that returns JSON data.
- */
-const homepage = (req, res) => {
-    res.json({
-        page: 'home page',
-        greetings: 'welcome'
-    });
-};
-
-// Registering the homepage route. When a user visits the root URL ('/'), the server responds
-// with a JSON object containing the homepage details.
-app.get('/', homepage);
 
 /**
  * Route for creating user accounts: 
@@ -65,7 +52,7 @@ app.post('/create-user', async (req, res) => {
     await createUserTable(); // Ensures the user table exists.
 
     try {
-        // Creating a new user account based on the provided details (username, password, etc.).
+        // Creating a new user account based on the provided details (email, password, ...etc.).
         const user = await createUserAccount(req.body);
         res.status(201).json(user); // Responds with the created user's details upon success.
     } catch (err) {
@@ -77,7 +64,7 @@ app.post('/create-user', async (req, res) => {
 
 /**
  * Route for user login: 
- * This route accepts login credentials (username, password) and handles user authentication. 
+ * This route accepts login credentials (email, password) and handles user authentication. 
  * If the login is successful, it returns a token for further authentication.
  */
 app.post('/login', userLogin);
@@ -88,9 +75,9 @@ app.post('/login', userLogin);
  * 'index.html' file from the 'storefront/build' directory. This allows React Router to handle 
  * client-side routing.
  */
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'storefront/build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'storefront/build', 'index.html'));
+// });
 
 /**
  * Starting the Express server on port 3000. The server listens for incoming connections and logs 
