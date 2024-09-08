@@ -7,7 +7,7 @@
 
 const jwt = require('jsonwebtoken'); // Import the JSON Web Token package
 const bcrypt = require('bcryptjs'); // Import the bcrypt package for password hashing
-const db = require('../postgress'); // Import the database module
+const db = require('../database/postgress'); // Import the database module
 
 /**
  * Handles user login requests.

@@ -49,8 +49,7 @@ const createUserTable = async () => {
                     local_area VARCHAR(100),
                     street VARCHAR(100),
                     house_number VARCHAR(10),
-                    password VARCHAR(255) NOT NULL,
-                    role INT DEFAULT 0 
+                    password VARCHAR(255) NOT NULL
                 );
             `);
             console.log("Table 'users' created.");

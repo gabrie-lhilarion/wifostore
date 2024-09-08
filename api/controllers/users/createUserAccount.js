@@ -9,7 +9,7 @@
  */
 
 const bcrypt = require('bcryptjs'); // Import bcrypt for hashing passwords
-const db = require('../postgress'); // Import the database connection module
+const db = require('../database/postgress'); // Import the database connection module
 
 const SALT_ROUNDS = 10; // Define the number of salt rounds for password hashing
 

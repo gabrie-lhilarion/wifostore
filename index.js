@@ -24,10 +24,11 @@ const path = require('path');
 // and authenticating users.
 const {
     createUserAccount,
-    createDatabase,
     createUserTable,
     userLogin,
 } = require("./api/controllers/users");
+
+const createDatabase = require("./api/controllers/database/createDatabase")
 
 // Initializing the Express application
 const app = express();
@@ -51,7 +52,7 @@ app.post('/create-user', async (req, res) => {
     await createUserTable(); // Ensures the user table exists.
 
     try {
-        // Creating a new user account based on the provided details (username, password, etc.).
+        // Creating a new user account based on the provided details (email, password, ...etc.).
         const user = await createUserAccount(req.body);
         res.status(201).json(user); // Responds with the created user's details upon success.
     } catch (err) {
@@ -63,7 +64,7 @@ app.post('/create-user', async (req, res) => {
 
 /**
  * Route for user login: 
- * This route accepts login credentials (username, password) and handles user authentication. 
+ * This route accepts login credentials (email, password) and handles user authentication. 
  * If the login is successful, it returns a token for further authentication.
  */
 app.post('/login', userLogin);
