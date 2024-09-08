@@ -40,20 +40,6 @@ app.use(express.json());
 // resides after running a production build of the frontend.
 app.use(express.static(path.join(__dirname, 'storefront/build')));
 
-/**
- * Homepage route handler: Returns a simple JSON response when accessing the root URL ('/').
- * This serves as an example of an API endpoint that returns JSON data.
- */
-const homepage = (req, res) => {
-    res.json({
-        page: 'home page',
-        greetings: 'welcome'
-    });
-};
-
-// Registering the homepage route. When a user visits the root URL ('/'), the server responds
-// with a JSON object containing the homepage details.
-app.get('/', homepage);
 
 /**
  * Route for creating user accounts: 
