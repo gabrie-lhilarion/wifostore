@@ -12,10 +12,10 @@ const db = require('../database/postgress'); // Import the database module
 /**
  * Handles user login requests.
  * 
- * Validates the entered username and password. If the credentials are valid, generates a JWT token and sends it to the client.
- * If the credentials are invalid, sends an appropriate error response.
+ * Validates the entered email and password. If the credentials are valid, generates a JWT token and sends it to the client.
+ * The JWT token will include the user's ID, email, first_name, last_name, and role.
  * 
- * @param {Object} req - The request object from the client. Contains `username` and `password` in the request body.
+ * @param {Object} req - The request object from the client. Contains `email` and `password` in the request body.
  * @param {Object} res - The response object to send data back to the client.
  * @async
  * @function userLogin
@@ -29,7 +29,7 @@ const userLogin = async (req, res) => {
             return res.status(400).json({ message: 'Email and password are required.' });
         }
 
-        // Query the database for the user with the given username
+        // Query the database for the user with the given email
         const result = await db.query('SELECT * FROM users WHERE email = $1;', [email]);
 
         if (result.rows.length === 0) {
@@ -45,11 +45,17 @@ const userLogin = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials.' });
         }
 
-        // Generate a JWT token
+        // Generate a JWT token with additional fields: first_name, last_name, and role
         const token = jwt.sign(
-            { userId: user.id, email: user.email },
+            {
+                userId: user.id,
+                email: user.email,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                role: user.role
+            },
             process.env.JWT_SECRET, // Your JWT secret key (should be stored in an environment variable)
-            { expiresIn: '1h' } // Token expiration time
+            { expiresIn: '6h' } // Token expiration time (6h)
         );
 
         // Send the token to the client

@@ -1,68 +1,39 @@
-/**
- * @module userTableCreator
- *
- * This module contains a function to create a `users` table in the PostgreSQL database if it does not already exist.
- * The table includes fields for storing personal information, address details, and a password.
- */
+// Module to create 'products' table
+// This module defines the structure of the 'products' table, which holds the information about each product in the store.
+// The table includes a unique product ID, product name, product details, SKU number, and a URL for the product image.
 
-const db = require('../database/postgress'); // Import the database module
+// Import the database connection module
+const db = require('../database/postgress');
 
 /**
- * Creates the `users` table in the specified PostgreSQL database if it does not already exist.
- * 
- * The `users` table will have the following columns:
- * - `id`: A unique identifier for each user (auto-incremented).
- * - `first_name`: The user's first name.
- * - `last_name`: The user's last name.
- * - `email`: The user's email address, which must be unique and not null.
- * - `phone`: The user's phone number.
- * - `state`: The state part of the user's address.
- * - `local_area`: The local area part of the user's address.
- * - `street`: The street part of the user's address.
- * - `house_number`: The house number part of the user's address.
- * - `password`: The hashed password for user authentication.
- * 
- * It first checks if the `users` table already exists. If not, it creates the table and logs a success message.
- * If the table already exists, it logs that the table already exists.
- *
- * @async
- * @function createUserTable
- * @throws {Error} Throws an error if there is a problem with the database query.
+ * Asynchronous function to create the 'products' table if it does not exist.
+ * The 'products' table will have the following fields:
+ * - product_id: Primary key for uniquely identifying each product (serial auto-incremented integer).
+ * - product_name: Name of the product (string with a max length of 255 characters).
+ * - product_detail: A brief description or additional information about the product (text field).
+ * - sku_number: Unique identifier for stock-keeping purposes (non-null string with a max length of 100).
+ * - product_image_url: URL of the product image (string with a max length of 255 characters).
  */
-const createUserTable = async () => {
+const createProductTable = async () => {
     try {
-        // Check if the table `users` exists in the current database
-        const res = await db.query(
-            `SELECT 1 FROM information_schema.tables WHERE table_name = 'users';`
-        );
-
-        if (res.rows.length === 0) {
-            // Table `users` doesn't exist, so create it
-            await db.query(`
-                CREATE TABLE users (
-                    id SERIAL PRIMARY KEY,
-                    first_name VARCHAR(100),
-                    last_name VARCHAR(100),
-                    email VARCHAR(100) UNIQUE NOT NULL,
-                    phone VARCHAR(15) UNIQUE NOT NULL,
-                    state VARCHAR(100),
-                    local_area VARCHAR(100),
-                    street VARCHAR(100),
-                    house_number VARCHAR(10),
-                    password VARCHAR(255) NOT NULL
-                );
-            `);
-            console.log("Table 'users' created.");
-        } else {
-            console.log("Table 'users' already exists.");
-        }
+        // Execute SQL query to create the 'products' table if it doesn't exist
+        await db.query(`
+            CREATE TABLE IF NOT EXISTS products (
+                product_id SERIAL PRIMARY KEY,
+                product_name VARCHAR(255),
+                product_category VARCHAR(255),
+                product_detail TEXT,
+                sku_number VARCHAR(100) UNIQUE NOT NULL,
+                product_image_url VARCHAR(255)
+            );
+        `);
+        console.log("Table 'products' created or already exists.");
     } catch (err) {
-        console.error('Error:', err); // Log any error that occurs during the database operations
+        console.error('Error creating the products table:', err);
     }
 };
 
-// Invoke the function to create the `users` table if it doesn't already exist
-//createUserTable();
+createProductTable()
 
-// export the function 
-module.exports = createUserTable;
+// Export the function for use in other parts of the application
+// module.exports = createProductTable;
