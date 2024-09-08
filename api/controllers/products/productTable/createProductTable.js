@@ -3,7 +3,7 @@
 // The table includes a unique product ID, product name, product details, SKU number, and a URL for the product image.
 
 // Import the database connection module
-const db = require('../database/postgress');
+const db = require('../../database/postgress');
 
 /**
  * Asynchronous function to create the 'products' table if it does not exist.
@@ -33,7 +33,6 @@ const createProductTable = async () => {
     }
 };
 
-createProductTable()
 
 // Export the function for use in other parts of the application
-// module.exports = createProductTable;
+module.exports = createProductTable;

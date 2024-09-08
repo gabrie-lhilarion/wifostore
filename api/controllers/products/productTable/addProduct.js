@@ -1,8 +1,8 @@
 // Import the database connection module
-const db = require('../database/postgress');
+const db = require('../../database/postgress');
 
 // create product table if no product table
-const createProductTable = require('./createProductDetailTable');
+const createProductTable = require('./createProductTable');
 createProductTable();
 
 /**

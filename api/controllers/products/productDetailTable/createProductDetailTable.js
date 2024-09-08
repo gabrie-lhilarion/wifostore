@@ -3,7 +3,7 @@
 // Each entry in the table is linked to a product in the 'products' table via a foreign key.
 
 // Import the database connection module
-const db = require('../database/postgress');
+const db = require('../../database/postgress');
 
 /**
  * Asynchronous function to create the 'product_detail' table if it does not exist.
@@ -17,11 +17,14 @@ const createProductDetailTable = async () => {
         // Execute SQL query to create the 'product_detail' table if it doesn't exist
         await db.query(`
             CREATE TABLE IF NOT EXISTS product_detail (
-                product_id INTEGER REFERENCES products(product_id) ON DELETE CASCADE,
+                item_id SERIAL PRIMARY KEY, -- Unique identifier for each product detail
+                product_id INT REFERENCES products(product_id) ON DELETE CASCADE,
                 size VARCHAR(50),
-                price NUMERIC(10, 2)
+                price DECIMAL(10, 2),
+                UNIQUE(product_id, size) -- Optional: Enforce uniqueness for product_id and size combination
             );
         `);
+
         console.log("Table 'product_detail' created or already exists.");
     } catch (err) {
         console.log('Error creating the product_detail table:', err);
