@@ -13,6 +13,19 @@ const db = require('../database/postgress'); // Import the database connection m
 
 const SALT_ROUNDS = 10; // Define the number of salt rounds for password hashing
 
+// password and confirmPassword must be the same
+const passWordMustMatch = (p1, p2) => {
+    return p1.trim() === p2.trim()
+}
+
+// all inputs must be at list 3 character
+const inputsAreValid = (inputArr) => {
+    inputArr.forEach(input => console.log(input))
+
+    return !inputArr.some(input => input.length < 3)
+
+}
+
 /**
  * Creates a new user account in the database with the provided user details.
  * 
@@ -54,40 +67,63 @@ const createUserAccount = async (userDetails) => {
         local_area,
         street,
         house_number,
-        password
+        password,
+        confirmPassword
     } = userDetails;
 
+    const inputs = [
+        first_name,
+        last_name,
+        email,
+        phone,
+        state,
+        local_area,
+        street,
+        house_number,
+        password,
+        confirmPassword
+    ]
 
+    if (passWordMustMatch(password, confirmPassword) && inputsAreValid(inputs)) {
 
+        console.log(
+            { password: passWordMustMatch(password, confirmPassword) },
+            { inputsValid: inputsAreValid(inputs) },
+            { inputs }
+        )
+        try {
+            // Hash the password using bcrypt
+            const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    try {
-        // Hash the password using bcrypt
-        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-
-        // Insert the new user details into the `users` table
-        const result = await db.query(
-            `INSERT INTO users (first_name, last_name, email, phone, state, local_area, street, house_number, password)
+            // Insert the new user details into the `users` table
+            const result = await db.query(
+                `INSERT INTO users (first_name, last_name, email, phone, state, local_area, street, house_number, password)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING id, email;`, // Returning user ID and email after insertion
-            [
-                first_name,
-                last_name,
-                email,
-                phone,
-                state,
-                local_area,
-                street,
-                house_number,
-                hashedPassword
-            ]
-        );
+                [
+                    first_name,
+                    last_name,
+                    email,
+                    phone,
+                    state,
+                    local_area,
+                    street,
+                    house_number,
+                    hashedPassword
+                ]
+            );
 
-        // Return the new user's ID and email
-        return result.rows[0];
+            // Return the new user's ID and email
+            return result.rows[0];
 
-    } catch (err) {
-        console.error('Error creating user account:', err.detail);
-        return (err);
+        } catch (err) {
+            console.error('Error creating user account:', err);
+            return (err);
+        }
+
+    } else {
+        console.error('Error creating user account: one or more invalid input');
+        return ({ constraint: "Invalid details provided" });
     }
 };
 

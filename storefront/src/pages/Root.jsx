@@ -10,14 +10,15 @@ function Root() {
     return (
         <>
             <Overlay />
-            <div className={Styles.root.container}>
-                <aside className='w-[25%] bg-slate-100 '>
-                    <div id className='fixed top-0 left-0 h-[100vh] bg-slate-100 w-[25%]'>
+
+            <div className='container flex h-[100vh]'>
+                <aside className='w-[25%] bg-slate-100'>
+                    <div className='fixed top-0 left-0 h-[100vh] bg-slate-100 w-[25%]'>
                         <div className='flex flex-col justify-between  h-[100vh]'>
                             <div>
                                 <section id='logo'>
                                     <h1 className='font-extrabold text-3xl text-center'>
-                                        wifostore
+                                        Project
                                     </h1>
                                 </section>
                                 <section>

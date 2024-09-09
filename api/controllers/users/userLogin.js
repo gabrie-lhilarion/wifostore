@@ -46,6 +46,8 @@ const userLogin = async (req, res) => {
         }
 
         // Generate a JWT token with additional fields: first_name, last_name, and role
+        const { id, email: mail, first_name, last_name } = user
+        const currentUser = { id, email: mail, first_name, last_name }
         const token = jwt.sign(
             {
                 userId: user.id,
@@ -59,7 +61,8 @@ const userLogin = async (req, res) => {
         );
 
         // Send the token to the client
-        res.json({ token });
+        res.json({ currentUser, token });
+
     } catch (err) {
         console.error('Error during login:', err);
         res.status(500).json({ message: 'Internal server error.' });
