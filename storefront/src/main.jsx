@@ -8,14 +8,44 @@ import {
 
 import './index.css'
 
-import { Root, ErrorPage } from "./pages";
+import {
+  Root,
+  ErrorPage,
+  Admin
+} from "./pages";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/edit-cart"
+      },
+      {
+        path: "/checkout"
+      }
+      ,
+      {
+        path: "/purchase-history"
+      }
+      ,
+      {
+        path: "/profile"
+      }
+    ]
   },
+  {
+    path: "/admin",
+    element: <Admin />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "index"
+      }
+    ]
+  }
 
 ]);
 
