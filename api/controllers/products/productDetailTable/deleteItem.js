@@ -20,6 +20,7 @@ const deleteItem = async (item_id) => {
         if (result.rowCount === 0) {
             console.log(`No item found with item_id ${item_id}.`);
         } else {
+            return { delete: 'success', item: item_id }
             console.log(`Item with item_id ${item_id} deleted successfully.`);
         }
     } catch (err) {

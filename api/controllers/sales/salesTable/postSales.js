@@ -1,6 +1,12 @@
 // Import the database connection module
 const db = require('../../database/postgress');
 
+const createSalesTable = require("./createSalesTable")
+const createSalesDetailsTable = require('../salesDetailTable/createSalesDetailsTable')
+
+await createSalesTable()
+await createSalesDetailsTable()
+
 /**
  * Function to post a new sale and its associated sale details.
  * Inserts data into both 'sales' and 'sales_details' tables as part of a transaction.
@@ -17,6 +23,9 @@ const db = require('../../database/postgress');
  * @throws {Error} Throws an error if the transaction fails.
  */
 const postSales = async (saleData) => {
+
+
+
     const client = await db.connect(); // Start a client connection
     try {
         const { customer_id, payment_method, items } = saleData;

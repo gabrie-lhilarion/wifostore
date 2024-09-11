@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 
 /**
- * This module defines a LoginForm component that allows users to submit login credentials
- * (email and password) to a backend API. It uses the `fetch()` API to send a POST request 
+ * This module defines a SignIn component that allows users to submit credentials
+ * (first name, last name, email and password etc) to a backend API. It uses the `fetch()` API to send a POST request 
  * with the login data to the '/login' endpoint. If the login is successful, the response 
  * is handled accordingly, and if there's an error (either from the server or network), 
  * an error message is displayed.
@@ -13,7 +13,7 @@ import React, { useState } from 'react';
  *  - Uses a button's `onClick` event to trigger the `fetch()` request.
  *  - Handles both server-side and network errors gracefully, displaying appropriate feedback.
  *
- * The `fetch()` call ensures that the login submission does not cause a full page reload 
+ * The `fetch()` call ensures that the form submission does not cause a full page reload 
  * or navigation, offering a smooth user experience.
  */
 

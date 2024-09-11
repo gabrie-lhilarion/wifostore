@@ -51,6 +51,8 @@ const updateItems = async (items) => {
         // Commit the transaction if all updates are successful
         await db.query('COMMIT');
         console.log('Items updated successfully.');
+
+        return items;
     } catch (err) {
         // Rollback the transaction in case of any error
         await db.query('ROLLBACK');

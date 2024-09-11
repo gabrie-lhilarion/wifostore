@@ -66,8 +66,10 @@ const updateProduct = async (productData) => {
         `;
 
         await db.query(query, values);
-
         console.log('Product updated successfully.');
+
+        return productData
+
     } catch (err) {
         console.error('Error updating product:', err);
         throw err;

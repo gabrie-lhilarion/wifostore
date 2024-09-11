@@ -11,6 +11,8 @@ import './index.css'
 import {
   Root,
   ErrorPage,
+  AdminHome,
+  AddProduct,
   Admin
 } from "./pages";
 
@@ -42,8 +44,13 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "index"
-      }
+        index: true,
+        element: <AdminHome />
+      },
+      {
+        path: "add-product",
+        element: <AddProduct />
+      },
     ]
   }
 

@@ -34,6 +34,8 @@ const deleteProduct = async (product_id) => {
         }
 
         console.log('Product and associated details deleted successfully.');
+
+        return { delete: 'success' }
     } catch (err) {
         console.error('Error deleting product:', err);
         throw err;
