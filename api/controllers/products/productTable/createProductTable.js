@@ -20,7 +20,7 @@ const createProductTable = async () => {
         await db.query(`
             CREATE TABLE IF NOT EXISTS products (
                 product_id SERIAL PRIMARY KEY,
-                product_name VARCHAR(255),
+                product_name VARCHAR(255) UNIQUE NOT NULL,
                 product_category VARCHAR(255),
                 product_detail TEXT,
                 sku_number VARCHAR(100) UNIQUE NOT NULL,

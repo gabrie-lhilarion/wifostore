@@ -30,7 +30,7 @@ const getProductById = async (product_id) => {
         const product = productResult.rows[0];
 
         // Fetch associated product details from the product_detail table
-        const detailResult = await db.query('SELECT size, price FROM product_detail WHERE product_id = $1;', [product_id]);
+        const detailResult = await db.query('SELECT item_id, size, price FROM product_detail WHERE product_id = $1;', [product_id]);
 
         // Attach the product details to the product object
         const productDetails = detailResult.rows; // List of size and price

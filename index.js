@@ -7,12 +7,13 @@ const {
     createUserAccount,
     createUserTable,
     userLogin,
+    updatePassword
 } = require("./api/controllers/users");
+
 const createDatabase = require("./api/controllers/database/createDatabase");
 
 const {
     addProduct,
-    createProductTable,
     deleteProduct,
     getProducts,
     getProductById,
@@ -23,7 +24,8 @@ const {
     addProductDetail,
     deleteItem,
     updateItem
-} = require("./api/controllers/products/productDetailTable")
+} = require("./api/controllers/products/productDetailTable");
+const postSales = require('./api/controllers/sales/salesTable/postSales');
 
 
 
@@ -67,7 +69,14 @@ app.post('/create-user', async (req, res) => {
 app.post('/add-product', async (req, res) => {
     try {
         const product = await addProduct(req.body);
-        res.status(201).json(product); // Return the created product
+
+        if (product.error) {
+            const error = product.error
+            res.status(500).json({ error });
+        } else {
+            res.status(201).json(product); // Return the created product
+        }
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -95,9 +104,10 @@ app.get('/products/:id', async (req, res) => {
     }
 });
 
-app.put('/products/:id', async (req, res) => {
+app.put('/product', async (req, res) => {
+    console.log(req.body)
     try {
-        const updatedProduct = await updateProduct(req.params.id, req.body);
+        const updatedProduct = await updateProduct(req.body);
         res.status(200).json(updatedProduct); // Return the updated product
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -124,21 +134,44 @@ app.post('/product-details', async (req, res) => {
 });
 
 
-app.put('/product-details/:id', async (req, res) => {
+app.put('/update-item', async (req, res) => {
+
     try {
-        const updatedItem = await updateItem(req.params.id, req.body);
+        const updatedItem = await updateItem(req.body);
         res.status(200).json(updatedItem); // Return the updated item details
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-app.delete('/product-details/:id', async (req, res) => {
+app.delete('/delete-item/:id', async (req, res) => {
     try {
         await deleteItem(req.params.id);
         res.status(204).send(); // Send no content after deletion
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+//  sales  
+// Product Detail-related routes
+app.post('/sales', async (req, res) => {
+    try {
+        const sales = await postSales(req.body);
+        res.status(201).json(sales); // Return the created product detail
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/change-password', async (req, res) => {
+    const { user_id, new_password } = req.body;
+
+    try {
+        const message = await updatePassword(user_id, new_password);
+        res.json({ success: true, message });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
     }
 });
 

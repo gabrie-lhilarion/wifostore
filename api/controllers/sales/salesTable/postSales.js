@@ -4,8 +4,6 @@ const db = require('../../database/postgress');
 const createSalesTable = require("./createSalesTable")
 const createSalesDetailsTable = require('../salesDetailTable/createSalesDetailsTable')
 
-await createSalesTable()
-await createSalesDetailsTable()
 
 /**
  * Function to post a new sale and its associated sale details.
@@ -23,18 +21,19 @@ await createSalesDetailsTable()
  * @throws {Error} Throws an error if the transaction fails.
  */
 const postSales = async (saleData) => {
+    await createSalesTable()
+    await createSalesDetailsTable()
 
 
 
-    const client = await db.connect(); // Start a client connection
     try {
         const { customer_id, payment_method, items } = saleData;
 
         // Begin a transaction
-        await client.query('BEGIN');
+        await db.query('BEGIN');
 
         // Insert into sales table
-        const saleResult = await client.query(
+        const saleResult = await db.query(
             `INSERT INTO sales (customer_id, total_amount, payment_method, status)
              VALUES ($1, $2, $3, 'completed') RETURNING sale_id;`,
             [customer_id, calculateTotalAmount(items), payment_method]
@@ -44,7 +43,7 @@ const postSales = async (saleData) => {
 
         // Insert each item into sales_details table
         for (const item of items) {
-            await client.query(
+            await db.query(
                 `INSERT INTO sales_details (sale_id, item_id, quantity, unit_price)
                  VALUES ($1, $2, $3, $4);`,
                 [sale_id, item.item_id, item.quantity, item.unit_price]
@@ -52,16 +51,16 @@ const postSales = async (saleData) => {
         }
 
         // Commit the transaction
-        await client.query('COMMIT');
+        await db.query('COMMIT');
 
         return { sale_id, message: 'Sale posted successfully' };
     } catch (err) {
         // Rollback the transaction in case of an error
-        await client.query('ROLLBACK');
+        await db.query('ROLLBACK');
         console.error('Error posting sale:', err);
-        throw err;
+        return err;
     } finally {
-        client.release(); // Release the client connection
+        db.release(); // Release the client connection
     }
 };
 

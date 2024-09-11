@@ -19,11 +19,11 @@ const createSalesTable = async () => {
         await db.query(`
             CREATE TABLE IF NOT EXISTS sales (
                 sale_id SERIAL PRIMARY KEY,
-                customer_id INT REFERENCES customers(customer_id),
+                user_id INT REFERENCES users(id),
                 total_amount DECIMAL(10, 2) NOT NULL,
                 sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 payment_method VARCHAR(50),
-                status VARCHAR(50) DEFAULT 'success'
+                status VARCHAR(50) DEFAULT 'completed'
             );
         `);
 

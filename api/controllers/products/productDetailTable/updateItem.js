@@ -14,14 +14,18 @@ const db = require('../../database/postgress');
  *   - price: The new price of the product (optional, numeric value).
  * 
  * @returns {Promise<Object>} - A promise that resolves when the item is updated with the updated details.
- * @throws {Error} - Throws an error if the update operation fails.
+ * @throws {Error} - Throws an error if the update operation fails or if no fields are provided.
  */
 const updateItem = async (item) => {
     const { item_id, size, price } = item;
 
-    console.log({ item_id, size, price })
+    // Ensure at least one field (size or price) is provided for the update
+    if (!size && !price) {
+        throw new Error('No fields to update. Please provide either size or price.');
+    }
+
     try {
-        // Construct the query based on provided fields (size, price)
+        // Construct the dynamic query based on provided fields (size, price)
         let updateQuery = 'UPDATE product_detail SET ';
         const updateParams = [];
         let paramIndex = 1;
@@ -37,7 +41,7 @@ const updateItem = async (item) => {
         }
 
         // Remove trailing comma and space, then add WHERE clause
-        updateQuery = updateQuery.slice(0, -2) + `WHERE item_id = $${paramIndex}`;
+        updateQuery = updateQuery.slice(0, -2) + ` WHERE item_id = $${paramIndex}`;
         updateParams.push(item_id);
 
         // Execute the query to update the item
@@ -53,19 +57,21 @@ const updateItem = async (item) => {
         // Return the updated item details
         return { item_id, size, price };
     } catch (err) {
-
-        console.log({ item_id, size, price })
         console.error('Error updating item:', err);
         throw err;
     }
 };
 
+
 /**
+ * sample JSON body
+ * 
  * {
-    "item_id": 1,
-    "size": "Large",
-    "price": 49.99
+  "item_id": 2,
+  "size": "Large",
+  "price": 49.99
 }
  */
+
 // Export the function for use in other parts of the application
 module.exports = updateItem;

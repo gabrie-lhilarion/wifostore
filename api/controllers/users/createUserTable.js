@@ -62,8 +62,7 @@ const createUserTable = async () => {
     }
 };
 
-// Invoke the function to create the `users` table if it doesn't already exist
-//createUserTable();
+
 
 // export the function 
 module.exports = createUserTable;

@@ -39,7 +39,8 @@ const addProduct = async (productDetails) => {
     } catch (err) {
         // Log and rethrow the error if something goes wrong
         console.error('Error adding product:', err);
-        throw new Error('Could not add product.');
+        const error = err.detail
+        return { error };
     }
 };
 
