@@ -2,8 +2,8 @@
 // This module provides functionality for a user to change their password.
 
 // Import the necessary modules
-const bcrypt = require('bcrypt');
-const db = require('../../database/postgress'); // Import the database connection module
+const bcrypt = require('bcryptjs');
+const db = require('../database/postgress'); // Import the database connection module
 
 /**
  * Asynchronous function to update a user's password in the 'users' table.

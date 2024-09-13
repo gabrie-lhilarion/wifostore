@@ -4,6 +4,7 @@ const deleteProduct = require('./deleteProduct')
 const getProducts = require('./getProducts')
 const getProductById = require('./getProductById')
 const updateProduct = require('./updateProduct')
+const getCategories = require('./getCategories')
 
 module.exports = {
     addProduct,
@@ -11,5 +12,6 @@ module.exports = {
     deleteProduct,
     getProducts,
     getProductById,
-    updateProduct
+    updateProduct,
+    getCategories
 }

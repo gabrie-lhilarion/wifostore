@@ -20,8 +20,6 @@ const passWordMustMatch = (p1, p2) => {
 
 // all inputs must be at list 3 character
 const inputsAreValid = (inputArr) => {
-    inputArr.forEach(input => console.log(input))
-
     return !inputArr.some(input => input.length < 3)
 
 }
@@ -127,7 +125,7 @@ const createUserAccount = async (userDetails) => {
     }
 };
 
-// Example usage
+// Example data
 // const newUserDetails = {
 //     first_name: 'John',
 //     last_name: 'Doe',

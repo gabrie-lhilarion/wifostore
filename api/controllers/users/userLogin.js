@@ -45,7 +45,7 @@ const userLogin = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials.' });
         }
 
-        // Generate a JWT token with additional fields: first_name, last_name, and role
+        // Generate a JWT token with fields: first_name, last_name, and role
         const { id, email: mail, first_name, last_name } = user
         const currentUser = { id, email: mail, first_name, last_name }
         const token = jwt.sign(
@@ -56,7 +56,7 @@ const userLogin = async (req, res) => {
                 last_name: user.last_name,
                 role: user.role
             },
-            process.env.JWT_SECRET, // Your JWT secret key (should be stored in an environment variable)
+            process.env.JWT_SECRET, // JWT secret key (should be stored in an environment variable)
             { expiresIn: '6h' } // Token expiration time (6h)
         );
 

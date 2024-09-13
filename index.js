@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
-// Import your controller functions
 const {
     createUserAccount,
     createUserTable,
@@ -17,7 +16,8 @@ const {
     deleteProduct,
     getProducts,
     getProductById,
-    updateProduct
+    updateProduct,
+    getCategories
 } = require("./api/controllers/products/productTable")
 
 const {
@@ -26,8 +26,6 @@ const {
     updateItem
 } = require("./api/controllers/products/productDetailTable");
 const postSales = require('./api/controllers/sales/salesTable/postSales');
-
-
 
 // Initialize the Express application
 const app = express();
@@ -81,6 +79,16 @@ app.post('/add-product', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+app.get('/categories', async (req, res) => {
+    try {
+        const categories = await getCategories()
+        res.status(200).json(categories)
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+})
 
 app.get('/products', async (req, res) => {
     try {
@@ -179,7 +187,6 @@ app.post('/change-password', async (req, res) => {
 app.post('/login', userLogin);
 
 // Catch-All Route for serving the React app
-// This should be after your static file serving middleware
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, 'storefront/dist', 'index.html'));
 // });
