@@ -1,29 +1,43 @@
 import React from 'react'
 import {
+    useLoaderData
+} from 'react-router-dom'
+
+import {
     Overlay,
     SideNavigation,
     Logo,
     UserAndCart,
     SearchProducts,
-    Footer
+    Footer,
+    Mansonry
 } from '../components'
 
-import Styles from "../css_rules/css.json"
+
+
 
 function Root() {
+    const data = useLoaderData()
+    const {
+        categories,
+        products
+    } = data
+
+    console.log({ categories, products })
+
     return (
         <>
             <Overlay />
 
-            <div className='container flex h-[100vh]'>
-                <aside className='w-[25%] bg-slate-100'>
-                    <div className='fixed top-0 left-0 h-[100vh] bg-slate-100 w-[25%]'>
+            <div className='lg:flex justify-between h-[100vh]'>
+                <aside className='hidden lg:block lg:w-[25%] bg-slate-100'>
+                    <div className=' top-0 left-0 h-[100vh] bg-slate-600'>
                         <div className='flex flex-col justify-between  h-[100vh]'>
                             <div>
                                 <Logo />
                                 <UserAndCart />
                                 <SearchProducts />
-                                <SideNavigation />
+                                <SideNavigation productCategories={categories} />
                             </div>
                             <Footer />
                         </div>
@@ -31,13 +45,15 @@ function Root() {
                     </div>
                 </aside>
 
-                <main className='w-[75%] verflow-y-auto	'>
+                <main className='lg:w-[75%] h-[100vh] bg-slate-100 overflow-y-auto '>
 
-                    <section className='p-4'>
-                        main content area
+                    <section className='p-3'>
+                        <Mansonry items={products.products} />
                     </section>
                 </main>
             </div>
+
+
         </>
     )
 }

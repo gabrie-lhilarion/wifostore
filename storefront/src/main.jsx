@@ -16,10 +16,15 @@ import {
   Admin
 } from "./pages";
 
+import {
+  root_loader
+} from './utils/loaders'
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    loader: root_loader,
     errorElement: <ErrorPage />,
     children: [
       {

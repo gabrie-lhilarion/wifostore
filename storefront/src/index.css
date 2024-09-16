@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    overflow: hidden;
+}
+
+.product {
+    box-shadow: 1px 5px 1px #ccc;
+    margin-bottom: 16px;
+}
+
+.product h1 {
+    font-weight: bolder;
+    text-transform: uppercase;
+}
