@@ -3,7 +3,7 @@ import { User } from "."
 
 function UserAndCart() {
     return (
-        <section>
+        <section className='relative'>
             <div className='flex mr-4 justify-end'>
                 <User />
                 <p className='bg-slate-200 m-2 p-2 relative'>
@@ -13,6 +13,9 @@ function UserAndCart() {
                     Cart
                 </p>
             </div>
+            <p className='obsolute bg-slate-400 z-100 max-h[350px] left-100'>
+                cart content here
+            </p>
 
         </section>
     )
