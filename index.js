@@ -85,8 +85,8 @@ app.get('/categories', async (req, res) => {
         const categories = await getCategories()
         res.status(200).json(categories)
     } catch (error) {
-        console.log(error)
-        return error
+        res.status(500).json(error);
+
     }
 })
 

@@ -34,7 +34,7 @@ const getProducts = async (page = 1) => {
         // Fetch associated product details for each product
         const productDetailsPromises = products.map(async (product) => {
             const detailResult = await db.query(
-                'SELECT size, price FROM product_detail WHERE product_id = $1;',
+                'SELECT product_id, item_id, size, price FROM product_detail WHERE product_id = $1;',
                 [product.product_id]
             );
             product.details = detailResult.rows; // Attach the product details (size and price) to each product
