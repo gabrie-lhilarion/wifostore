@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 {
     "root": {
         "container": ""
     }
+=======
+{
+    "root": {
+        "container": "container flex h-[100vh]"
+    }
+>>>>>>> ab3ec94ed277df8fe2d002be8685cd435aa30604
 }
