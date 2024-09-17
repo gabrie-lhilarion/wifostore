@@ -6,8 +6,8 @@ const fetchData = async () => {
     try {
         // Use Promise.all to fetch both categories and products in parallel
         const [categoriesResponse, productsResponse] = await Promise.all([
-            fetch("http://localhost:3000/categories"),
-            fetch("http://localhost:3000/products")
+            fetch("https://wifostore.onrender.com/categories"),
+            fetch("https://wifostore.onrender.com/products")
         ]);
 
         // Check if both responses are ok (status in the range 200-299)
