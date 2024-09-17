@@ -9,5 +9,5 @@ export default defineConfig({
     emptyOutDir: true,  // Ensures that the output directory is cleaned before each build
   },
 
-  // base: '/storefront/'
+  base: '/storefront/'
 })

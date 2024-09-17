@@ -202,10 +202,10 @@ app.get('/items', async (req, res) => {
 
 app.post('/login', userLogin);
 
-// Catch-All Route for serving the React app
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'storefront/dist', 'index.html'));
-// });
+// Catch - All Route for serving the React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'storefront/dist', 'index.html'));
+});
 
 // Start the server
 app.listen(3000, () => {
