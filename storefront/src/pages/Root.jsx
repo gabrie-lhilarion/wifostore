@@ -10,10 +10,11 @@ import {
     UserAndCart,
     SearchProducts,
     Footer,
-    Mansonry
+    Mansonry,
+    MobileShoppingCart
 } from '../components'
 
-
+import { SlGrid } from "react-icons/sl";
 
 
 function Root() {
@@ -23,7 +24,16 @@ function Root() {
         products
     } = data
 
+
     console.log({ categories, products })
+
+    const showOverLay = () => {
+        document.getElementById('overlay').classList.remove('hidden')
+    }
+
+    const toggleShoppingCart = () => {
+
+    }
 
     return (
         <>
@@ -45,9 +55,25 @@ function Root() {
                     </div>
                 </aside>
 
-                <main className='lg:w-[75%] h-[100vh] bg-slate-100 overflow-y-auto '>
+                <main className='lg:w-[75%] h-[100vh] bg-slate-100 overflow-y-auto'>
+                    <section className='top-of-main h-[50px] bg-slate-400 lg:w-[75%] lg:hidden w-[100%] fixed'>
+                        <div className='flex justify-between'>
+                            <p className='p-3'>
+                                <SlGrid className='w-[40px] text-2xl' />
+                            </p>
+                            <ul className='flex mr-6'>
+                                <li onClick={showOverLay} className='p-3 bg-slate-200 rounded-full mr-3 mt-[0.5px]'>
+                                    Guest
+                                </li>
+                                <li onClick={toggleShoppingCart} className='p-3  bg-slate-200 rounded-full mt-[0.5px]'>
+                                    Cart
+                                </li>
+                            </ul>
+                            <MobileShoppingCart />
+                        </div>
+                    </section>
 
-                    <section className='p-3'>
+                    <section className='p-3 pt-16'>
                         <Mansonry items={products.products} />
                     </section>
                 </main>

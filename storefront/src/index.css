@@ -15,3 +15,8 @@ body {
     font-weight: bolder;
     text-transform: uppercase;
 }
+
+.shopping-cart-wrap {
+    box-shadow: 1px 5px 1px #ccc;
+
+}
