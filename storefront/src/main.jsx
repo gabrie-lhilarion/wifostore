@@ -17,8 +17,14 @@ import {
 } from "./pages";
 
 import {
-  root_loader
+  root_loader,
+  productsLoader
 } from './utils/loaders'
+
+import {
+  addProductAction
+} from './utils/actions'
+
 
 const router = createBrowserRouter([
   {
@@ -46,6 +52,7 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <Admin />,
+
     errorElement: <ErrorPage />,
     children: [
       {
@@ -54,7 +61,9 @@ const router = createBrowserRouter([
       },
       {
         path: "add-product",
-        element: <AddProduct />
+        element: <AddProduct />,
+        loader: productsLoader,
+        action: addProductAction,
       },
     ]
   }

@@ -1,9 +1,12 @@
 import React from 'react'
 
+
+
+
 function MobileShoppingCart() {
     return (
-        <div className='absolute shopping-cart-wrap rounded-md bg-slate-200 z-3 w-[310px] max-h[350px] right-[10px] top-14 '>
-            <div className='relative shopping-cart z-1 p-4'>
+        <div className='absolute shopping-cart-wrap shopping-cart hidden rounded-md bg-slate-200 z-3 w-[310px] max-h[350px] right-[10px] top-14 '>
+            <div className='relative  z-1 p-4'>
                 {/* <span className='bg-white w-[20px] h-[20px] block absolute rotate-45 right-16 z-0 top-[-3px]'>
                         .
                                     </span> */}

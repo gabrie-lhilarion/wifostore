@@ -32,8 +32,10 @@ function Root() {
     }
 
     const toggleShoppingCart = () => {
-
+        const shoppingCcarts = document.querySelectorAll('.shopping-cart')
+        shoppingCcarts.forEach(cart => cart.classList.toggle('hidden'))
     }
+
 
     return (
         <>
@@ -73,7 +75,7 @@ function Root() {
                         </div>
                     </section>
 
-                    <section className='p-3 pt-16'>
+                    <section className='p-3 md:pb-20'>
                         <Mansonry items={products.products} />
                     </section>
                 </main>

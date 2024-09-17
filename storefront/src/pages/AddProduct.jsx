@@ -1,40 +1,10 @@
 import React, { useState } from 'react';
 import { useLoaderData, useActionData, Form, redirect } from 'react-router-dom';
 
-// This function will load data (product list) for the component
-export async function loader() {
-    const response = await fetch('/api/products');
-    const products = await response.json();
-    return products; // Return the product list as loader data
-}
-
-// This function will handle form submission
-export async function action({ request }) {
-    const formData = await request.formData();
-    const newProduct = {
-        productName: formData.get('productName'),
-        productCategory: formData.get('productCategory'),
-        productDetail: formData.get('productDetail'),
-        skuNumber: formData.get('skuNumber'),
-        productImageUrl: formData.get('productImageUrl'),
-    };
-
-    const response = await fetch('/api/products/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newProduct),
-    });
-
-    if (response.ok) {
-        return redirect('/admin/products'); // Redirect after success
-    } else {
-        const error = await response.json();
-        return error;
-    }
-}
 
 function AddProduct() {
-    const products = useLoaderData(); // Load product list on component mount
+    const { products } = useLoaderData(); // Load product list on component mount
+    console.log(products)
     const actionData = useActionData(); // Handle form submission response
     const [formState, setFormState] = useState({
         productName: '',
@@ -51,12 +21,12 @@ function AddProduct() {
     };
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div className='flex bg-slate-200 product-crud'>
             {/* Form to add new product (on the left) */}
-            <div style={{ flex: 1, padding: '20px', borderRight: '1px solid #ddd' }}>
-                <h2>Add Product</h2>
+            <div className='flex-1 p-3'>
+                <h2 className='text-center font-bold text-2xl'>Add Product</h2>
                 {actionData?.error && <p style={{ color: 'red' }}>{actionData.error}</p>}
-                <Form method="post">
+                <Form method="post" className='divide-1 divide-x-slate-400'>
                     <div>
                         <label>Product Name</label>
                         <input
@@ -69,13 +39,19 @@ function AddProduct() {
                     </div>
                     <div>
                         <label>Product Category</label>
-                        <input
-                            type="text"
-                            name="productCategory"
-                            value={formState.productCategory}
-                            onChange={handleInputChange}
-                            required
-                        />
+                        <select name="productCategory" id="">
+                            <option value="">--choose--</option>
+                            <option value="Friuts">Friuts</option>
+                            <option value="Fats and Oil">Fats and Oil</option>
+                            <option value="Herbes">Herbes</option>
+                            <option value="Condiments">Condiments</option>
+                            <option value="Meats">Meats</option>
+                            <option value="Fish">Fish</option>
+                            <option value="Cooked">Cooked</option>
+                            <option value="Barbecue">Babecue</option>
+                            <option value="Dairy">Dairy</option>
+                        </select>
+
                     </div>
                     <div>
                         <label>Product Detail</label>
@@ -105,7 +81,7 @@ function AddProduct() {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <button type="submit">Add Product</button>
+                    <button className='bg-slate-500 p-3 rounded-lg text-bold text-slate-100' type="submit">Add Product</button>
                 </Form>
             </div>
 

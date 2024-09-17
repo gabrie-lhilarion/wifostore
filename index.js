@@ -203,6 +203,7 @@ app.get('/items', async (req, res) => {
 app.post('/login', userLogin);
 
 // Catch - All Route for serving the React app
+// Uncomment before push
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'storefront/dist', 'index.html'));
 });

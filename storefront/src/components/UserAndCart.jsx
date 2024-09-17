@@ -3,9 +3,9 @@ import { User } from "."
 
 function UserAndCart() {
 
-    const togggleShoppingCart = () => {
-        const shoppingCcarts = document.querySelectorAll('.shopping-cart')
-        shoppingCcarts.forEach(cart => cart.classList.toggle('hidden'))
+    const toggleShoppingCart = () => {
+        const shoppingCarts = document.querySelectorAll('.shopping-cart')
+        shoppingCarts.forEach(cart => cart.classList.toggle('hidden'))
     }
 
 
@@ -13,15 +13,15 @@ function UserAndCart() {
         <section className='relative'>
             <div className='flex mr-4 justify-end'>
                 <User />
-                <p onClick={togggleShoppingCart} className='bg-slate-200 cursor-pointer m-2 p-2 relative'>
+                <p onClick={toggleShoppingCart} className='bg-slate-200 cursor-pointer m-2 p-2 relative'>
                     <span className='absolute top-[-15px] right-[-10px] text-white bg-slate-800 w-[30px] text-center rounded-full shadow-lg'>
                         2
                     </span>
                     Cart
                 </p>
             </div>
-            <div className='absolute shopping-cart-wrap rounded-md bg-white z-3 w-[310px] max-h[350px] left-[100px] rotate-[45]'>
-                <section className='relative shopping-cart z-1 p-4'>
+            <div className='absolute shopping-cart-wrap shopping-cart hidden rounded-md bg-white z-3 w-[310px] max-h[350px] left-[100px] rotate-[45]'>
+                <section className='relative z-1 p-4'>
                     {/* <span className='bg-white w-[20px] h-[20px] block absolute rotate-45 right-16 z-0 top-[-3px]'>
                         .
                     </span> */}
