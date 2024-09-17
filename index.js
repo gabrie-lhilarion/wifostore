@@ -23,8 +23,10 @@ const {
 const {
     addProductDetail,
     deleteItem,
-    updateItem
+    updateItem,
+    getItemsList
 } = require("./api/controllers/products/productDetailTable");
+
 const postSales = require('./api/controllers/sales/salesTable/postSales');
 
 // Initialize the Express application
@@ -180,6 +182,20 @@ app.post('/change-password', async (req, res) => {
         res.json({ success: true, message });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// get product items
+app.get('/items', async (req, res) => {
+    try {
+        const items = await getItemsList(req.params.id);
+        if (items) {
+            res.status(200).json(items); // Return the product details
+        } else {
+            res.status(404).json({ message: 'No items not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

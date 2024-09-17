@@ -19,7 +19,6 @@ const db = require('../../database/postgress');
 const updateItem = async (item) => {
     const { item_id, size, price } = item;
 
-    console.log({ item_id, size, price })
     try {
         // Construct the query based on provided fields (size, price)
         let updateQuery = 'UPDATE product_detail SET ';
