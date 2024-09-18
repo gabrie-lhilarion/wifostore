@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .product {
-    box-shadow: 1px 5px 1px #ccc;
-    margin-bottom: 16px;
+  box-shadow: 1px 5px 1px #ccc;
+  margin-bottom: 16px;
 }
 
 .product h1 {
-    font-weight: bolder;
-    text-transform: uppercase;
+  font-weight: bolder;
+  text-transform: uppercase;
 }
