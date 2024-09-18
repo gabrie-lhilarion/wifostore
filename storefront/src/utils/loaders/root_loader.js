@@ -1,7 +1,4 @@
 
-
-
-
 const fetchData = async () => {
     try {
         // Use Promise.all to fetch both categories and products in parallel
@@ -31,4 +28,3 @@ const fetchData = async () => {
 };
 
 export default fetchData;
-

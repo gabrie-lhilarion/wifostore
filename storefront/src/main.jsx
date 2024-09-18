@@ -14,7 +14,8 @@ import {
   AdminHome,
   AddProduct,
   Admin,
-  PriceList
+  PriceList,
+  Home
 } from "./pages";
 
 import {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
     loader: root_loader,
     errorElement: <ErrorPage />,
     children: [
+      {
+        index: true,
+        element: <Home />,
+      },
       {
         path: "/edit-cart"
       },
