@@ -26,7 +26,7 @@ function Home() {
     const [siteData, setSiteData] = useOutletContext();
 
     const { cart, products } = siteData
-
+    console.log(siteData)
     return (
         <div>
             <section className='top-of-main h-[50px] bg-slate-400 lg:w-[75%] lg:hidden w-[100%] fixed'>

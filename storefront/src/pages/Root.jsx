@@ -20,10 +20,11 @@ function Root() {
     const data = useLoaderData()
     const {
         categories,
-        products
+        products,
+        items
     } = data
 
-    const [siteData, setSiteData] = React.useState({ cart: [], categories, products })
+    const [siteData, setSiteData] = React.useState({ cart: [], categories, products, items })
 
     return (
         <>
