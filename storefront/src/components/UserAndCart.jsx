@@ -1,7 +1,9 @@
 import React from 'react'
 import { User } from "."
+import { FaShoppingCart } from "react-icons/fa";
 
-function UserAndCart() {
+
+function UserAndCart({ cart }) {
 
     const toggleShoppingCart = () => {
         const shoppingCarts = document.querySelectorAll('.shopping-cart')
@@ -13,11 +15,11 @@ function UserAndCart() {
         <section className='relative'>
             <div className='flex mr-4 justify-end'>
                 <User />
-                <p onClick={toggleShoppingCart} className='bg-slate-200 cursor-pointer m-2 p-2 relative'>
+                <p onClick={toggleShoppingCart} className='flex bg-slate-200 cursor-pointer m-2 p-2 relative w-[40px]'>
                     <span className='absolute top-[-15px] right-[-10px] text-white bg-slate-800 w-[30px] text-center rounded-full shadow-lg'>
-                        2
+                        {cart.length}
                     </span>
-                    Cart
+                    <FaShoppingCart />
                 </p>
             </div>
             <div className='absolute shopping-cart-wrap shopping-cart hidden rounded-md bg-white z-3 w-[310px] max-h[350px] left-[100px] rotate-[45]'>

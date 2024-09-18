@@ -35,9 +35,9 @@ function Root() {
                         <div className='flex flex-col justify-between  h-[100vh]'>
                             <div>
                                 <Logo />
-                                <UserAndCart />
+                                <UserAndCart cart={siteData.cart} />
                                 <SearchProducts />
-                                <SideNavigation productCategories={categories} />
+                                <SideNavigation productCategories={siteData.categories} />
                             </div>
                             <Footer />
                         </div>

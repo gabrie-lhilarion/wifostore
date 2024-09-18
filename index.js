@@ -24,6 +24,7 @@ const {
     addProductDetail,
     deleteItem,
     updateItem,
+    getItemById,
     getItemsList
 } = require("./api/controllers/products/productDetailTable");
 
@@ -186,11 +187,26 @@ app.post('/change-password', async (req, res) => {
 });
 
 // get product items
-app.get('/items/:id', async (req, res) => {
+app.get('/items', async (req, res) => {
     try {
-        const items = await getItemsList(req.params.id);
+        const items = await getItemsList();
         if (items) {
             res.status(200).json(items); // Return the product details
+        } else {
+            res.status(404).json({ message: 'No items not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// get a product item
+app.get('/items/:id', async (req, res) => {
+    try {
+        console.log(req.params.id)
+        const item = await getItemById(req.params.id);
+        if (item) {
+            res.status(200).json(item); // Return the product details
         } else {
             res.status(404).json({ message: 'No items not found' });
         }
