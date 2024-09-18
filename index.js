@@ -186,7 +186,7 @@ app.post('/change-password', async (req, res) => {
 });
 
 // get product items
-app.get('/items', async (req, res) => {
+app.get('/items:id', async (req, res) => {
     try {
         const items = await getItemsList(req.params.id);
         if (items) {

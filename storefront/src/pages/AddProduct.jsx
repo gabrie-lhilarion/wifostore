@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useLoaderData, useActionData, Form, redirect } from 'react-router-dom';
+import { useLoaderData, useActionData, useFetcher, Link, } from 'react-router-dom';
 
 
 function AddProduct() {
     const { products } = useLoaderData(); // Load product list on component mount
+    const fetcher = useFetcher()
     console.log(products)
     const actionData = useActionData(); // Handle form submission response
     const [formState, setFormState] = useState({
@@ -26,7 +27,7 @@ function AddProduct() {
             <div className='flex-1 p-3'>
                 <h2 className='text-center font-bold text-2xl'>Add Product</h2>
                 {actionData?.error && <p style={{ color: 'red' }}>{actionData.error}</p>}
-                <Form method="post" className='divide-1 divide-x-slate-400'>
+                <fetcher.Form method="post" id='add-product-form' className='divide-1 divide-x-slate-400'>
                     <div>
                         <label>Product Name</label>
                         <input
@@ -50,6 +51,7 @@ function AddProduct() {
                             <option value="Cooked">Cooked</option>
                             <option value="Barbecue">Babecue</option>
                             <option value="Dairy">Dairy</option>
+                            <option value="Vegetable">Vegetable</option>
                         </select>
 
                     </div>
@@ -81,17 +83,32 @@ function AddProduct() {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <button className='bg-slate-500 p-3 rounded-lg text-bold text-slate-100' type="submit">Add Product</button>
-                </Form>
+                    {fetcher.state === 'idle' ?
+                        <button className='bg-slate-500 p-3 rounded-lg text-bold text-slate-100' type="submit">Add Product</button>
+                        :
+                        <button className='bg-slate-500 p-3 rounded-lg text-bold text-slate-100' type="button">.. please wait</button>
+                    }
+                </fetcher.Form>
             </div>
 
             {/* Product List (on the right) */}
-            <div style={{ flex: 1, padding: '20px' }}>
-                <h2>Product List</h2>
+            <div className='flex-1 p-2 bg-white'>
+                <h2 className='font-bold text-center'>Product List</h2>
                 <ul>
-                    {products.map((product) => (
-                        <li key={product.product_id}>
-                            {product.product_name} - {product.product_category}
+                    {products.map((product, index) => (
+                        <li key={product.product_id}
+                            className={index % 2 === 0 ? 'bg-slate-100 p-1 flex justify-between' : 'p-1 flex justify-between'}>
+                            <p>
+                                {index + 1}. {product.product_name}
+                            </p>
+                            <p className='text-sm '>
+                                <Link to={`/admin/price-list/${product.product_id}`} state={{ product }} >
+                                    Price list  <em className='bg-slate-600 inline-block p-1 w-[25px] text-slate-100'> {product.details.length}  </em>
+                                </Link >
+                                <span className='w-[30px] h-[30px] text-lg inline-block text-center text-red-600 hover:bg-red-600 hover:text-white cursor-pointer rounded-full'>
+                                    &times;
+                                </span>
+                            </p>
                         </li>
                     ))}
                 </ul>

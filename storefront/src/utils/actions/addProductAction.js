@@ -17,7 +17,10 @@ const addProductAction = async ({ request }) => {
     });
 
     if (response.ok) {
-        return redirect('/admin/products'); // Redirect after success
+        const addedProduct = await response.json();
+        console.log(addedProduct)
+        document.getElementById("add-product-form").reset();
+        return addedProduct;
     } else {
         const error = await response.json();
         return error;

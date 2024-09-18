@@ -13,12 +13,14 @@ import {
   ErrorPage,
   AdminHome,
   AddProduct,
-  Admin
+  Admin,
+  PriceList
 } from "./pages";
 
 import {
   root_loader,
-  productsLoader
+  productsLoader,
+  pricelistLoader
 } from './utils/loaders'
 
 import {
@@ -64,6 +66,11 @@ const router = createBrowserRouter([
         element: <AddProduct />,
         loader: productsLoader,
         action: addProductAction,
+      },
+      {
+        path: "price-list/:id",
+        element: <PriceList />,
+        loader: pricelistLoader
       },
     ]
   }
