@@ -11,7 +11,7 @@ function UserAndCart({ cart, setSiteData }) {
         shoppingCarts.forEach(cart => cart.classList.toggle('hidden'))
     }
 
-    const totalItemsInCart = () => cart.reduce((current, previous) => previous.quantity + current, 0)
+    const totalItemsInCart = () => cart.reduce((current, previous) => +previous.quantity + current, 0)
 
     const deleteFromCart = (id) => {
 
@@ -23,7 +23,7 @@ function UserAndCart({ cart, setSiteData }) {
     }
 
 
-
+    const cartTotal = () => cart.reduce((previous, current) => (+current.quantity * +current.price) + previous, 0)
 
     return (
         <section className='relative'>
@@ -61,6 +61,9 @@ function UserAndCart({ cart, setSiteData }) {
                                 </p>
                             </div>
                         </li>))}
+
+                        {cart.length > 0 && <p className='pt-2'> Cart Total:  &#8358;{(cartTotal()).toFixed(2)} </p>}
+
                     </ul>
 
                     {cart.length > 0 && <p className='flex justify-between border-2 p-2 border-t-slate-200'>

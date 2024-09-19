@@ -14,6 +14,7 @@ function MobileShoppingCart({ cart, siteData, setSiteData }) {
         setSiteData((siteData) => ({ ...siteData, cart: cartAfterDelete }))
     }
 
+    const cartTotal = () => cart.reduce((previous, current) => (+current.quantity * +current.price) + previous, 0)
 
     return (
         <div className='absolute shopping-cart-wrap shopping-cart hidden rounded-md bg-slate-200 z-3 w-[310px] max-h[350px] right-[10px] top-14 '>
@@ -42,6 +43,7 @@ function MobileShoppingCart({ cart, siteData, setSiteData }) {
                             </p>
                         </div>
                     </li>))}
+                    {cart.length > 0 && <p className='pt-2'> Cart Total:  &#8358;{(cartTotal()).toFixed(2)} </p>}
                 </ul>
                 {cart.length > 0 && <p className='flex justify-between border-2 p-2 border-t-slate-200'>
                     <button className='p-2 bg-slate-500 text-slate-100'> edit cart </button>
