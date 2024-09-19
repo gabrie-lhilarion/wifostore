@@ -35,7 +35,7 @@ function MobileShoppingCart({ cart, siteData, setSiteData }) {
                             <span onClick={() => deleteFromCart(item.item_id)}
                                 className='text-lg absolute right-[-30px] top-10'>&times;
                             </span>
-                            <p> {item.product_name} </p>
+                            <p className='font-extrabold'> {item.product_name} </p>
                             <p> {item.size} </p>
                             <p> Unit Price: &#8358;{item.price} </p>
                             <p> Qty: {item.quantity} <span className='p-1 bg-slate-200 rounded-md'>

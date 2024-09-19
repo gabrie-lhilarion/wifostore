@@ -37,12 +37,12 @@ function UserAndCart({ cart, setSiteData }) {
                 </p>
             </div>
             <div className='absolute shopping-cart-wrap shopping-cart hidden rounded-md bg-white z-3 w-[310px] max-h[350px] left-[100px] rotate-[45]'>
-                <section className='relative z-1'>
+                <section className='relative z-5'>
 
                     <p className='font-bold text-center text-xl p-3 divide-y'>
                         My shopping cart
                     </p>
-                    <ul className='divide-y divide-blue-200 p-4'>
+                    <ul className='divide-y divide-blue-200 p-4 z-6'>
                         {cart.length === 0 && <li className='text-center'>EMPTY CART</li>}
                         {cart.length > 0 && cart.map(item => (<li key={item.item_id} className='flex p-2'>
                             <p className='w-[60px] h-[60px] bg-white'>
@@ -53,7 +53,7 @@ function UserAndCart({ cart, setSiteData }) {
                                 <span onClick={() => deleteFromCart(item.item_id)}
                                     className='text-lg absolute right-[-30px] top-10'>&times;
                                 </span>
-                                <p> {item.product_name} </p>
+                                <p className='font-extrabold'> {item.product_name} </p>
                                 <p> {item.size} </p>
                                 <p> Unit Price: &#8358;{item.price} </p>
                                 <p> Qty: {item.quantity} <span className='p-1 bg-slate-200 rounded-md'>

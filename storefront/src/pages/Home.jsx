@@ -5,7 +5,9 @@ import {
 
 import {
     Mansonry,
-    MobileShoppingCart
+    MobileShoppingCart,
+    SideNavigation,
+    Footer
 } from '../components'
 
 import { SlGrid } from "react-icons/sl";
@@ -30,14 +32,31 @@ function Home() {
 
     const totalItemsInCart = () => cart.reduce((current, previous) => previous.quantity + current, 0)
 
+    const toggleMobileMenu = () => document.getElementById('mobile-menu').classList.toggle('hidden')
 
     return (
         <div>
             <section className='top-of-main h-[50px] bg-slate-400 lg:w-[75%] lg:hidden w-[100%] fixed'>
                 <div className='flex justify-between'>
-                    <p className='p-3'>
-                        <SlGrid className='w-[40px] text-2xl' />
-                    </p>
+                    <div className='relative'>
+                        <p className='flex'>
+                            <SlGrid onClick={toggleMobileMenu} className='cursor-pointer m-3 w-[40px] text-2xl' />
+                            <span className='pt-3 font-bold uppercase'>
+                                Wifostore
+                            </span>
+                        </p>
+                        <div id='mobile-menu' className='flex flex-col justify-between bg-slate-500 w-[100vw] h-[95vh] left-0'>
+                            <div>
+                                <h1 className='text-right p-3 font-bold '>WIFOSTORE</h1>
+
+                                <SideNavigation productCategories={siteData.categories} />
+
+                            </div>
+
+                            <Footer />
+
+                        </div>
+                    </div>
                     <ul className='flex mr-6'>
                         <li onClick={showOverLay} className=' flex p-3'>
                             Guest
