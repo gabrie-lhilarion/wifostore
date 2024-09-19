@@ -41,3 +41,9 @@ body {
 .product-crud form div {
     margin-bottom: 12px;
 }
+
+.slick-slider,
+.slick-list,
+.slick-track {
+    z-index: 1;
+}

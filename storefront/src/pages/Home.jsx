@@ -1,6 +1,10 @@
 import React from 'react'
 
-import Slider from "react-slick";
+import AwesomeSlider from 'react-awesome-slider';
+import withAutoplay from 'react-awesome-slider/dist/autoplay';
+import 'react-awesome-slider/dist/styles.css';
+
+const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 import {
     useOutletContext
@@ -15,9 +19,8 @@ import {
 
 import { SlGrid } from "react-icons/sl";
 import { FaShoppingCart } from "react-icons/fa";
+import 'react-awesome-slider/dist/styles.css';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const showOverLay = () => {
     document.getElementById('overlay').classList.remove('hidden')
@@ -28,38 +31,14 @@ const toggleShoppingCart = () => {
     shoppingCcarts.forEach(cart => cart.classList.toggle('hidden'))
 }
 
-const SimpleSlider = ({ categories }) => {
-    var settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
-    return (
-        <Slider {...settings}>
-            {categories && categories.map(
-                category => <div className='flex mb-4 text-slate-100' key={category.replace(/\s+/g, '-')}>
-
-                    <h1 className='text-black'>
-
-                        {category}
-                    </h1>
-
-
-
-                </div>
-            )}
-        </Slider>
-    );
-}
 
 function Home() {
 
     const [siteData, setSiteData] = useOutletContext();
 
-    const { cart, products, categories } = siteData
-    const list = Object.keys(categories)
+    const { cart, products } = siteData
+
+
 
     const totalItemsInCart = () => cart.reduce((current, previous) => previous.quantity + current, 0)
 
@@ -67,7 +46,7 @@ function Home() {
 
     return (
         <div>
-            <section className='top-of-main h-[50px] bg-slate-400 lg:w-[75%] lg:hidden w-[100%] fixed'>
+            <section style={{ zIndex: '20000' }} className='top-of-main h-[50px] bg-slate-400 lg:w-[75%] lg:hidden w-[100%] fixed'>
                 <div className='flex justify-between'>
                     <div className='relative'>
                         <p className='flex'>
@@ -108,12 +87,42 @@ function Home() {
                 </div>
             </section>
 
+
             <section className='p-3 md:pb-20'>
-                <div className='mb-6'>
-                    <SimpleSlider categories={list} />
+
+                <div className='relative hidden lg:block mt-0 z-0 mb-10 ml-auto mr-auto w-[95%]'>
+
+                    <AutoplaySlider
+                        play={true}
+                        cancelOnInteraction={false} // should stop playing on user interaction
+                        interval={6000}
+                        className='z-0'>
+                        {products.products.map(product => <div className='lg:flex bg-white w-[100%] lg:h-[100%] h-[100vh]'>
+                            <div>
+                                <img src={product.product_image_url} alt="product_image" />
+                            </div>
+                            <div className=' p-4 w-[50%] grid place-items-center justify-items-center'>
+                                <h1 className='text-3xl font-extrabold text-center'>
+                                    {product.product_name}
+                                </h1>
+                                <p className='text-3xl'>
+                                    {product.product_detail}
+                                </p>
+                                <p>
+                                    <button className='bg-slate-500 text-slate-100 p-4 uppercase' type="button">
+                                        Buy now
+                                    </button>
+                                </p>
+                            </div>
+                        </div>)}
+                    </AutoplaySlider>
+
                 </div>
+
+
                 <Mansonry items={products.products} />
             </section>
+
         </div>
     )
 }
