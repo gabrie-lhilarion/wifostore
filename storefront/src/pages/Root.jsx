@@ -24,7 +24,16 @@ function Root() {
         items
     } = data
 
-    const [siteData, setSiteData] = React.useState({ cart: [], categories, products, items })
+
+    let myCart = [];
+
+    if (localStorage.getItem('wifostore_cart') && JSON.parse(localStorage.getItem('wifostore_cart')).length) {
+        myCart = JSON.parse(localStorage.getItem('wifostore_cart'))
+    }
+
+    const [siteData, setSiteData] = React.useState({ cart: myCart, categories, products, items })
+
+    const { cart } = siteData
 
     return (
         <>
@@ -36,7 +45,7 @@ function Root() {
                         <div className='flex flex-col justify-between  h-[100vh]'>
                             <div>
                                 <Logo />
-                                <UserAndCart cart={siteData.cart} />
+                                <UserAndCart cart={cart} setSiteData={setSiteData} />
                                 <SearchProducts />
                                 <SideNavigation productCategories={siteData.categories} />
                             </div>

@@ -26,7 +26,11 @@ function Home() {
     const [siteData, setSiteData] = useOutletContext();
 
     const { cart, products } = siteData
-    console.log(siteData)
+    console.log(cart)
+
+    const totalItemsInCart = () => cart.reduce((current, previous) => previous.quantity + current, 0)
+
+
     return (
         <div>
             <section className='top-of-main h-[50px] bg-slate-400 lg:w-[75%] lg:hidden w-[100%] fixed'>
@@ -40,7 +44,7 @@ function Home() {
                         </li>
                         <li onClick={toggleShoppingCart} className='p-3  rounded-full mt-[0.5px] cursor-pointer relative'>
                             <span className='absolute top-[-1px] right-[-10px] text-white bg-slate-800 w-[30px] text-center rounded-full shadow-lg'>
-                                {cart.length}
+                                {totalItemsInCart()}
                             </span>
 
                             <span className='mt-1 text-xl block'>
@@ -50,7 +54,7 @@ function Home() {
 
                         </li>
                     </ul>
-                    <MobileShoppingCart />
+                    <MobileShoppingCart cart={cart} siteData={siteData} setSiteData={setSiteData} />
                 </div>
             </section>
 
@@ -62,3 +66,5 @@ function Home() {
 }
 
 export default Home
+
+
