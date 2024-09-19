@@ -16,6 +16,7 @@ import {
 } from '../components'
 
 
+
 function Root() {
     const data = useLoaderData()
     const {
@@ -55,6 +56,7 @@ function Root() {
                     </div>
                 </aside>
                 <main className='lg:w-[75%] h-[100vh] bg-slate-100 overflow-y-auto'>
+
                     <Outlet context={[siteData, setSiteData]} />
                 </main>
 

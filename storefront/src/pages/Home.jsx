@@ -1,4 +1,7 @@
 import React from 'react'
+
+import Slider from "react-slick";
+
 import {
     useOutletContext
 } from 'react-router-dom';
@@ -13,6 +16,9 @@ import {
 import { SlGrid } from "react-icons/sl";
 import { FaShoppingCart } from "react-icons/fa";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 const showOverLay = () => {
     document.getElementById('overlay').classList.remove('hidden')
 }
@@ -22,13 +28,38 @@ const toggleShoppingCart = () => {
     shoppingCcarts.forEach(cart => cart.classList.toggle('hidden'))
 }
 
+const SimpleSlider = ({ categories }) => {
+    var settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
+    return (
+        <Slider {...settings}>
+            {categories && categories.map(
+                category => <div className='flex mb-4 text-slate-100' key={category.replace(/\s+/g, '-')}>
+
+                    <h1 className='text-black'>
+
+                        {category}
+                    </h1>
+
+
+
+                </div>
+            )}
+        </Slider>
+    );
+}
 
 function Home() {
 
     const [siteData, setSiteData] = useOutletContext();
 
-    const { cart, products } = siteData
-    console.log(cart)
+    const { cart, products, categories } = siteData
+    const list = Object.keys(categories)
 
     const totalItemsInCart = () => cart.reduce((current, previous) => previous.quantity + current, 0)
 
@@ -78,6 +109,9 @@ function Home() {
             </section>
 
             <section className='p-3 md:pb-20'>
+                <div className='mb-6'>
+                    <SimpleSlider categories={list} />
+                </div>
                 <Mansonry items={products.products} />
             </section>
         </div>
