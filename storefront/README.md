@@ -1,40 +1,50 @@
-WifoStore Food Shopping App
-Overview
-WifoStore is a food shopping app designed to simplify the lives of busy individuals by offering a streamlined solution for purchasing food items during hectic workdays. By leveraging modern web technologies, we aim to provide a user-friendly experience for individuals looking to manage their grocery needs quickly and efficiently.
+# React + TypeScript + Vite
 
-This project was the result of a collaborative effort between frontend and backend engineers, where we successfully integrated a range of technologies to build both the frontend and backend of the application.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Features
-Frontend: Built with React, Vite, Tailwind CSS, and HTML for a responsive, modern user interface.
-Backend: Powered by PostgreSQL for the database and APIs for data retrieval and interaction.
-Deployment: Hosted and deployed using Render, providing a scalable and reliable solution for our backend API.
-Technology Stack
-Frontend:
-React
-Vite
-Tailwind CSS
-HTML
-Backend:
-PostgreSQL
-RESTful APIs
-Deployment:
-Render (for backend deployment)
-Challenges and Solutions
-Throughout the development process, we faced a few challenges, particularly around debugging and integrating the various technologies used. However, our persistence paid off, and we were able to deliver a fully functional app on time. Completing a JavaScript course earlier in the year was instrumental in helping to integrate React effectively into the project.
+Currently, two official plugins are available:
 
-Lessons Learned
-This project was an excellent opportunity to strengthen our knowledge of full-stack development and understand the complexities of working with multiple technologies. It reinforced the importance of persistence and collaboration, especially when tackling unexpected challenges during development.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-Future Improvements
-We plan to continue enhancing WifoStore by:
+## Expanding the ESLint configuration
 
-Optimizing the codebase for better performance.
-Improving the user experience with further user testing.
-Implementing advanced features like user accounts, product reviews, and enhanced security measures for transactions.
-Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue if you have any suggestions or improvements.
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-Authors
-Mariam Kelani-Frontend engineer
-Gabriel Hilarion - Backend Engineer
-License
+- Configure the top-level `parserOptions` property like this:
+
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+});
+```
+
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+
+```js
+// eslint.config.js
+import react from "eslint-plugin-react";
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: "18.3" } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs["jsx-runtime"].rules,
+  },
+});
+```
