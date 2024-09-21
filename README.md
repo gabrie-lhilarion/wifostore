@@ -50,7 +50,7 @@ We plan to enhance WifoStore with the following updates:
 
 ## Screenshot
 
-![WifoStore Screenshot](wifostore/storefront/src/assets/screenshot.png)
+![WifoStore Screenshot](storefront/src/assets/screenshot.png)
 
 ## Contributing
 
