@@ -47,3 +47,8 @@ body {
 .slick-track {
     z-index: 1;
 }
+
+.cart-details,
+.payment-proccessor {
+    box-shadow: 1px 5px 1px #ccc;
+}
