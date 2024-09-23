@@ -1,7 +1,7 @@
 import React from 'react';
 import { Login, SignIn } from './index'
 
-function Overlay() {
+function Overlay({ setSiteData }) {
 
     const [visible, setVisible] = React.useState('signin')
     const switchCard = (card) => {
@@ -12,7 +12,9 @@ function Overlay() {
         <div id='overlay' className={`hidden flex flex-col top-0 left-0 fixed w-[100vw] h-[100vh] bg-slate-800 z-[100] bg-opacity-50`}>
 
             <div>
-                {visible === 'signin' ? <SignIn toggle={switchCard} /> : <Login toggle={switchCard} />}
+                {visible === 'signin' ?
+                    <SignIn toggle={switchCard} setSiteData={setSiteData} /> :
+                    <Login toggle={switchCard} setSiteData={setSiteData} />}
 
             </div>
         </div>

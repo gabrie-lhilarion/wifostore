@@ -17,7 +17,7 @@ import React, { useState } from 'react';
  * or navigation, offering a smooth user experience.
  */
 
-function SignIn({ toggle }) {
+function SignIn({ toggle, setSiteData }) {
 
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
@@ -54,10 +54,8 @@ function SignIn({ toggle }) {
                     setError(`${data.constraint}`);
                 }
 
-                if (userLogin.id) {
-                    // Handle success, e.g., redirect or load data
-
-                }
+                const { currentUser } = data
+                setSiteData((siteData) => ({ ...siteData, currentUser: currentUser }))
 
             } else {
                 // Handle server-side errors

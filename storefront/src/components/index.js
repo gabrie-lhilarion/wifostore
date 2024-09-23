@@ -11,4 +11,5 @@ export { default as Mansonry } from './Mansonry'
 export { default as MobileShoppingCart } from './MobileShoppingCart'
 export { default as PriceList } from './PriceList'
 export { default as Item } from './Item'
-
+export { default as QuantityControl } from './QuantityControl'
+export { default as StickyMobileHeader } from './StickyMobileHeader'

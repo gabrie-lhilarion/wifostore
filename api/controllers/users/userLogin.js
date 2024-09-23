@@ -2,7 +2,7 @@
  * @module userLogin
  *
  * This module defines the `userLogin` function used for handling user login requests.
- * It checks the entered username and password against the database and generates a JWT token if the credentials are valid.
+ * It checks the entered email and password against the database and generates a JWT token if the credentials are valid.
  */
 
 const jwt = require('jsonwebtoken'); // Import the JSON Web Token package
@@ -12,7 +12,7 @@ const db = require('../database/postgress'); // Import the database module
 /**
  * Handles user login requests.
  * 
- * Validates the entered email and password. If the credentials are valid, generates a JWT token and sends it to the client.
+ * Validates the entered email and password. If the credentials are valid, generates a JWT token and sends it in an HTTP-only cookie.
  * The JWT token will include the user's ID, email, first_name, last_name, and role.
  * 
  * @param {Object} req - The request object from the client. Contains `email` and `password` in the request body.
@@ -46,22 +46,30 @@ const userLogin = async (req, res) => {
         }
 
         // Generate a JWT token with fields: first_name, last_name, and role
-        const { id, email: mail, first_name, last_name } = user
-        const currentUser = { id, email: mail, first_name, last_name }
+        const { id, email: mail, first_name, last_name, role } = user;
         const token = jwt.sign(
             {
-                userId: user.id,
-                email: user.email,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                role: user.role
+                userId: id,
+                email: mail,
+                first_name: first_name,
+                last_name: last_name,
+                role: role
             },
             process.env.JWT_SECRET, // JWT secret key (should be stored in an environment variable)
             { expiresIn: '6h' } // Token expiration time (6h)
         );
 
-        // Send the token to the client
-        res.json({ currentUser, token });
+        // Set the JWT token in an HTTP-only cookie
+        res.cookie('token', token, {
+            httpOnly: true,      // Prevents client-side JavaScript from accessing the cookie
+            secure: process.env.NODE_ENV === 'production', // Send only over HTTPS in production
+            sameSite: 'strict',  // Protect against CSRF
+            maxAge: 6 * 60 * 60 * 1000, // 6 hours in milliseconds
+        });
+
+        // Send the current user details in the response (without the token)
+        const currentUser = { id, email: mail, first_name, last_name, role };
+        res.json({ message: 'Login successful', currentUser });
 
     } catch (err) {
         console.error('Error during login:', err);

@@ -1,73 +1,37 @@
 import { useOutletContext } from 'react-router-dom';
 
-const hidePriceList = (target) => {
-    const card = target.parentElement.parentElement.parentElement
-    card.querySelector('button').classList.toggle("hidden")
-    card.querySelector('.price-list').classList.toggle('hidden')
 
-}
+import {
+    alreadyInCart,
+    hidePriceList,
+    addToCart,
+    minusQuantity,
+    plusQuantity,
+    getQuantity
+} from '../utils/cart'
 
 const PriceList = ({ list }) => {
     const [siteData, setSiteData] = useOutletContext()
     const { cart, products, items } = siteData
 
-    const alreadyInCart = (item_id) => {
-        return cart.find(item => Number(item.item_id) === Number(item_id))
+
+    const QuantityControl = ({ itemId, cart, setSiteData }) => {
+        return (
+            <div className='p-2'>
+                <span onClick={() => minusQuantity(itemId, cart, setSiteData)}
+                    className='w-[35px] inline-block bg-slate-600 text-center text-slate-100 cursor-pointer leading-0'> &minus; </span>
+                <span>
+                    <input className='w-[30px] text-center'
+                        type="text"
+                        defaultValue={getQuantity(itemId, cart)} />
+                </span>
+                <span onClick={() => plusQuantity(itemId, cart, setSiteData)}
+                    className='w-[35px] inline-block bg-slate-600 text-center text-slate-100 cursor-pointer leading-0'> &#x2B; </span>
+
+            </div>
+        )
     }
 
-    const addToCart = (itemId) => {
-        const item = items.find(item => Number(item.item_id) === Number(itemId))
-        const product = products.products.find(product => Number(product.product_id) === Number(item.product_id))
-        const updatedItem = { ...item, quantity: 1, product_image_url: product.product_image_url, product_name: product.product_name }
-
-        const updatedCart = cart.concat(updatedItem)
-        localStorage.setItem('wifostore_cart', JSON.stringify(updatedCart))
-
-        setSiteData((siteData) => ({ ...siteData, cart: updatedCart }))
-    }
-
-    const getQuantity = (itemId, cart) => {
-
-        const item = cart.find(item => Number(item.item_id) === Number(itemId))
-        return item.quantity
-    }
-
-    const minusQuantity = (itemId, cart) => {
-        const item = cart.find(item => Number(item.item_id) === Number(itemId))
-
-        if (item.quantity > 1) {
-            item.quantity--
-
-            localStorage.setItem('wifostore_cart', JSON.stringify(cart))
-
-            setSiteData((siteData) => ({ ...siteData, cart: cart }))
-        } else {
-            const id = item.item_id
-            const cartAfterDelete = cart.filter(item => Number(item.item_id) !== Number(id))
-
-            localStorage.setItem('wifostore_cart', JSON.stringify(cartAfterDelete))
-
-            setSiteData((siteData) => ({ ...siteData, cart: cartAfterDelete }))
-        }
-    }
-    const plusQuantity = (itemId, cart) => {
-        const item = cart.find(item => Number(item.item_id) === Number(itemId))
-        item.quantity++
-
-        localStorage.setItem('wifostore_cart', JSON.stringify(cart))
-
-        setSiteData((siteData) => ({ ...siteData, cart: cart }))
-    }
-
-    const QuantityControl = ({ itemId }) => <p className='p-2'>
-        <span onClick={() => minusQuantity(itemId, cart)} className='w-[35px] inline-block bg-slate-600 text-center text-slate-100 cursor-pointer leading-0'> &minus; </span>
-        <span>
-            <input className='w-[30px] text-center'
-                type="text"
-                defaultValue={getQuantity(itemId, cart)} />
-        </span>
-        <span onClick={() => plusQuantity(itemId, cart)} className='w-[35px] inline-block bg-slate-600 text-center text-slate-100 cursor-pointer leading-0'> &#x2B; </span>
-    </p>
 
     return <ul className='m-2'>
         <p
@@ -92,10 +56,10 @@ const PriceList = ({ list }) => {
                 </span>
             </p>
 
-            {alreadyInCart(item.item_id) ?
-                <QuantityControl itemId={item.item_id} /> :
+            {alreadyInCart(item.item_id, cart) ?
+                <QuantityControl itemId={item.item_id} cart={cart} siteData={siteData} setSiteData={setSiteData} /> :
                 <button
-                    onClick={() => addToCart(item.item_id)}
+                    onClick={() => addToCart(item.item_id, items, cart, products, setSiteData)}
                     className='bg-slate-400 p-2 rounded-full'
                     type="button"
                     data-item={item.item_id}

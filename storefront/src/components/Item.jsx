@@ -1,13 +1,7 @@
 
 import { PriceList } from '.'
+import { showPricelist } from '../utils/cart'
 
-
-
-const showPricelist = (target) => {
-    const priceList = target.parentElement.querySelector('.price-list')
-    priceList.classList.toggle("hidden")
-    target.classList.add("hidden")
-}
 
 const Item = ({ product }) => <div
     className='product m-2 p-4 bg-white rounded-md'

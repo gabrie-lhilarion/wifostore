@@ -27,18 +27,23 @@ function Root() {
 
 
     let myCart = [];
+    let currentUser = {};
 
     if (localStorage.getItem('wifostore_cart') && JSON.parse(localStorage.getItem('wifostore_cart')).length) {
         myCart = JSON.parse(localStorage.getItem('wifostore_cart'))
     }
 
-    const [siteData, setSiteData] = React.useState({ cart: myCart, categories, products, items })
+    if (localStorage.getItem('wifostore_user') && JSON.parse(localStorage.getItem('wifostore_user')).length) {
+        currentUser = JSON.parse(localStorage.getItem('wifostore_user'))
+    }
+
+    const [siteData, setSiteData] = React.useState({ cart: myCart, categories, products, items, currentUser })
 
     const { cart } = siteData
 
     return (
         <>
-            <Overlay />
+            <Overlay setSiteData={setSiteData} />
 
             <div className='lg:flex justify-between h-[100vh]'>
                 <aside className='hidden lg:block lg:w-[25%] bg-slate-100'>
