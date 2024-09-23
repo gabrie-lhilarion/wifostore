@@ -8,6 +8,6 @@ export default defineConfig({
     outDir: "dist", // Output directory relative to the Vite root (storefront directory)
     emptyOutDir: true, // Ensures that the output directory is cleaned before each build
   },
-  // uncomment base before build
-  //base: "/storefront/",
+  // uncommentbase before build
+  base: "/storefront/",
 });
