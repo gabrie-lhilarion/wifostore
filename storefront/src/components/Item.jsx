@@ -14,29 +14,27 @@ const showPricelist = (target) => {
 };
 
 // Item component to display product information
-// Receives a 'product' prop which contains product details
 const Item = ({ product }) => (
   <div
-    // Wrapper div for the product card with styling classes for margin, padding, background, and rounded corners
+    // Wrapper for each product, with margin, padding, and other styles
     className="product m-2 p-4 bg-white rounded-md"
-    // Use the product name as a key, replacing spaces with underscores
+    // Using the product name as a key, replacing spaces with underscores to ensure uniqueness
     key={product.product_name.replace(/\s+/g, "_")}
   >
-    {/* Product image section */}
     <div className="product-image">
-      {/* Display product image */}
+      {/* Product image display */}
       <img className="block m-auto" src={product.product_image_url} alt="" />
     </div>
 
-    {/* Display product name */}
+    {/* Product name */}
     <h1>{product.product_name}</h1>
 
-    {/* Display product details */}
+    {/* Product details or description */}
     <p>{product.product_detail}</p>
 
-    {/* Button to show the price list */}
+    {/* Button to display the price list on click */}
     <button
-      // Attach onClick event to the button, which will toggle the price list visibility
+      // Event handler to show the price list when the button is clicked
       onClick={(e) => showPricelist(e.target)}
       className="p-3 bg-slate-600 text-slate-200 block rounded-sm mt-2"
       type="button"
@@ -46,7 +44,7 @@ const Item = ({ product }) => (
 
     {/* Price list section, initially hidden */}
     <div className="price-list hidden">
-      {/* Render PriceList component if product details are available */}
+      {/* If the product has details, render the PriceList component */}
       {product.details && <PriceList list={product.details} />}
     </div>
   </div>
