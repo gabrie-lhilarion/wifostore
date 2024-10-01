@@ -15,7 +15,6 @@ import {
   AddProduct,
   Admin,
   PriceList,
-  Checkout,
   Home
 } from "./pages";
 
@@ -26,8 +25,7 @@ import {
 } from './utils/loaders'
 
 import {
-  addProductAction,
-  pricelistAction
+  addProductAction
 } from './utils/actions'
 
 
@@ -46,8 +44,7 @@ const router = createBrowserRouter([
         path: "/edit-cart"
       },
       {
-        path: "/checkout",
-        element: <Checkout />
+        path: "/checkout"
       }
       ,
       {
@@ -78,7 +75,6 @@ const router = createBrowserRouter([
       {
         path: "price-list/:id",
         element: <PriceList />,
-        action: pricelistAction,
         loader: pricelistLoader
       },
     ]

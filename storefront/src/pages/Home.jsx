@@ -1,74 +1,64 @@
 import React from 'react'
-
-import AwesomeSlider from 'react-awesome-slider';
-import withAutoplay from 'react-awesome-slider/dist/autoplay';
-import 'react-awesome-slider/dist/styles.css';
-
-const AutoplaySlider = withAutoplay(AwesomeSlider);
-
 import {
     useOutletContext
 } from 'react-router-dom';
 
 import {
     Mansonry,
-    StickyMobileHeader
+    MobileShoppingCart
 } from '../components'
 
+import { SlGrid } from "react-icons/sl";
+import { FaShoppingCart } from "react-icons/fa";
 
-import 'react-awesome-slider/dist/styles.css';
+const showOverLay = () => {
+    document.getElementById('overlay').classList.remove('hidden')
+}
+
+const toggleShoppingCart = () => {
+    const shoppingCcarts = document.querySelectorAll('.shopping-cart')
+    shoppingCcarts.forEach(cart => cart.classList.toggle('hidden'))
+}
 
 
 function Home() {
 
     const [siteData, setSiteData] = useOutletContext();
-    const { cart, products } = siteData
 
+    const { cart, products } = siteData
+    console.log(siteData)
     return (
         <div>
-            <StickyMobileHeader cart={cart} siteData={siteData} setSiteData={setSiteData} />
+            <section className='top-of-main h-[50px] bg-slate-400 lg:w-[75%] lg:hidden w-[100%] fixed'>
+                <div className='flex justify-between'>
+                    <p className='p-3'>
+                        <SlGrid className='w-[40px] text-2xl' />
+                    </p>
+                    <ul className='flex mr-6'>
+                        <li onClick={showOverLay} className=' flex p-3'>
+                            Guest
+                        </li>
+                        <li onClick={toggleShoppingCart} className='p-3  rounded-full mt-[0.5px] cursor-pointer relative'>
+                            <span className='absolute top-[-1px] right-[-10px] text-white bg-slate-800 w-[30px] text-center rounded-full shadow-lg'>
+                                {cart.length}
+                            </span>
 
+                            <span className='mt-1 text-xl block'>
 
-            <section className='p-3 md:pb-20'>
+                                <FaShoppingCart />
+                            </span>
 
-                <div className='relative hidden lg:block mt-0 z-0 mb-10 ml-auto mr-auto w-[95%]'>
-
-                    <AutoplaySlider
-                        play={true}
-                        cancelOnInteraction={false} // should stop playing on user interaction
-                        interval={6000}
-                        className='z-0'>
-                        {products.products.map(product => <div key={product.product_id}
-                            className='lg:flex bg-white w-[100%] lg:h-[100%] h-[100vh]'>
-                            <div>
-                                <img src={product.product_image_url} alt="product_image" />
-                            </div>
-                            <div className=' p-4 w-[50%] grid place-items-center justify-items-center'>
-                                <h1 className='text-3xl font-extrabold text-center'>
-                                    {product.product_name}
-                                </h1>
-                                <p className='text-3xl'>
-                                    {product.product_detail}
-                                </p>
-                                <p>
-                                    <button className='bg-slate-500 text-slate-100 p-4 uppercase' type="button">
-                                        Buy now
-                                    </button>
-                                </p>
-                            </div>
-                        </div>)}
-                    </AutoplaySlider>
-
+                        </li>
+                    </ul>
+                    <MobileShoppingCart />
                 </div>
-
-
-                <Mansonry items={products.products} />
             </section>
 
+            <section className='p-3 md:pb-20'>
+                <Mansonry items={products.products} />
+            </section>
         </div>
     )
 }
 
 export default Home
-
-

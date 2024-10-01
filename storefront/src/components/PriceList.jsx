@@ -1,37 +1,25 @@
 import { useOutletContext } from 'react-router-dom';
 
+const hidePriceList = (target) => {
+    const card = target.parentElement.parentElement.parentElement
+    console.log(card)
+    card.querySelector('button').classList.toggle("hidden")
+    card.querySelector('.price-list').classList.toggle('hidden')
 
-import {
-    alreadyInCart,
-    hidePriceList,
-    addToCart,
-    minusQuantity,
-    plusQuantity,
-    getQuantity
-} from '../utils/cart'
+}
 
 const PriceList = ({ list }) => {
     const [siteData, setSiteData] = useOutletContext()
-    const { cart, products, items } = siteData
+    const { cart } = siteData
 
-
-    const QuantityControl = ({ itemId, cart, setSiteData }) => {
-        return (
-            <div className='p-2'>
-                <span onClick={() => minusQuantity(itemId, cart, setSiteData)}
-                    className='w-[35px] inline-block bg-slate-600 text-center text-slate-100 cursor-pointer leading-0'> &minus; </span>
-                <span>
-                    <input className='w-[30px] text-center'
-                        type="text"
-                        defaultValue={getQuantity(itemId, cart)} />
-                </span>
-                <span onClick={() => plusQuantity(itemId, cart, setSiteData)}
-                    className='w-[35px] inline-block bg-slate-600 text-center text-slate-100 cursor-pointer leading-0'> &#x2B; </span>
-
-            </div>
-        )
+    const alreadyInCart = (item_id) => {
+        console.log({ cart, item_id })
+        return cart.find(item => Number(item.item_id) === Number(item_id))
     }
 
+    const addToCart = (target) => {
+        console.log(target.dataset.price)
+    }
 
     return <ul className='m-2'>
         <p
@@ -46,7 +34,7 @@ const PriceList = ({ list }) => {
         {list.length > 0 && list.map(item => <li
             className='flex justify-between mb-1 p-1 bg-slate-200'
             key={item.size}>
-            <p className='flex justify-between bg-slate-200 w-[40%] '>
+            <p className='flex justify-between bg-slate-200 w-[60%] '>
 
                 <span className=' text-sm font-bold text-slate-600 p-2'>
                     {item.size}
@@ -56,12 +44,14 @@ const PriceList = ({ list }) => {
                 </span>
             </p>
 
-            {alreadyInCart(item.item_id, cart) ?
-                <QuantityControl itemId={item.item_id} cart={cart} siteData={siteData} setSiteData={setSiteData} /> :
+            {alreadyInCart(item.item_id) ? <p>In cart</p> :
                 <button
-                    onClick={() => addToCart(item.item_id, items, cart, products, setSiteData)}
+                    onClick={(e) => addToCart(e.target)}
                     className='bg-slate-400 p-2 rounded-full'
                     type="button"
+                    data-size={item.size}
+                    data-price={item.price}
+                    data-product={item.product_id}
                     data-item={item.item_id}
                 >
                     Add to cart

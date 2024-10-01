@@ -16,7 +16,6 @@ import {
 } from '../components'
 
 
-
 function Root() {
     const data = useLoaderData()
     const {
@@ -25,25 +24,11 @@ function Root() {
         items
     } = data
 
-
-    let myCart = [];
-    let currentUser = {};
-
-    if (localStorage.getItem('wifostore_cart') && JSON.parse(localStorage.getItem('wifostore_cart')).length) {
-        myCart = JSON.parse(localStorage.getItem('wifostore_cart'))
-    }
-
-    if (localStorage.getItem('wifostore_user') && JSON.parse(localStorage.getItem('wifostore_user')).length) {
-        currentUser = JSON.parse(localStorage.getItem('wifostore_user'))
-    }
-
-    const [siteData, setSiteData] = React.useState({ cart: myCart, categories, products, items, currentUser })
-
-    const { cart } = siteData
+    const [siteData, setSiteData] = React.useState({ cart: [], categories, products, items })
 
     return (
         <>
-            <Overlay setSiteData={setSiteData} />
+            <Overlay />
 
             <div className='lg:flex justify-between h-[100vh]'>
                 <aside className='hidden lg:block lg:w-[25%] bg-slate-100'>
@@ -51,7 +36,7 @@ function Root() {
                         <div className='flex flex-col justify-between  h-[100vh]'>
                             <div>
                                 <Logo />
-                                <UserAndCart cart={cart} setSiteData={setSiteData} />
+                                <UserAndCart cart={siteData.cart} />
                                 <SearchProducts />
                                 <SideNavigation productCategories={siteData.categories} />
                             </div>
@@ -61,7 +46,6 @@ function Root() {
                     </div>
                 </aside>
                 <main className='lg:w-[75%] h-[100vh] bg-slate-100 overflow-y-auto'>
-
                     <Outlet context={[siteData, setSiteData]} />
                 </main>
 

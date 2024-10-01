@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 function AdminHome() {
     return (
         <div>
-            {/* <section className='statistic max-h-[400px] min-h-[350px]'>
+            <section className='statistic max-h-[400px] min-h-[350px]'>
                 statistics
-            </section> */}
+            </section>
 
             <section>
                 <div className='data-objects grid lg:grid-cols-3 grid-cols-1 grid-gap-2'>

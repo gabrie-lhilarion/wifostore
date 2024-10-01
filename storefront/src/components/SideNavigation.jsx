@@ -7,14 +7,7 @@ function SideNavigation({ productCategories }) {
         <section>
             <ul className='p-4 text-3xl font-bold text-slate-500'>
                 {categories && categories.map(
-                    category => <li className='flex mb-4 text-slate-100' key={category.replace(/\s+/g, '-')}>
-
-                        <span>
-                            {category}
-                        </span>
-
-
-                    </li>
+                    category => <li className='mb-4 text-slate-100' key={category.replace(/\s+/g, '-')}> {category} </li>
                 )}
 
             </ul>
