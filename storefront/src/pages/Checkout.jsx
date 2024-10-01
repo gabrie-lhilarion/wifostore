@@ -8,6 +8,15 @@ import {
     deleteFromCart
 } from '../utils/cart'
 
+import {
+    goToDelivery,
+    showOverLay,
+    goToPaymemtIntruction,
+    hideSelect,
+    showSelect,
+    selectDeliveryTime
+} from '../utils/checkout'
+
 function Checkout() {
 
     const [siteData, setSiteData] = useOutletContext()
@@ -16,54 +25,6 @@ function Checkout() {
     const currentUser = JSON.parse(localStorage.getItem('wifostore_user')) || []
     console.log(currentUser)
 
-    const goToDelivery = () => {
-        document.getElementById('step-1').classList.add('hidden')
-        document.getElementById('step-2').classList.remove('hidden')
-    }
-
-    const showOverLay = () => {
-        document.getElementById('overlay').classList.remove('hidden')
-    }
-
-    const goToPaymemtIntruction = () => {
-        document.getElementById('step-2').classList.add('hidden')
-        document.getElementById('step-3').classList.remove('hidden')
-    }
-
-
-    const shoppingCarts = document.querySelectorAll('.shopping-cart')
-    shoppingCarts.forEach(cart => cart.classList.add('hidden'))
-
-    const showSelect = (target) => {
-        if (target.classList.contains('delivery_list')) {
-            target.parentElement.querySelectorAll('.delivery_list').forEach(selector => selector.classList.remove('selected'))
-            target.querySelector('.checkable').classList.remove("bg-slate-300")
-            target.querySelector('.checkable').classList.add("bg-green-700")
-            target.classList.add('selected')
-        }
-    }
-
-    const hideSelect = (target) => {
-        if (target.classList.contains('delivery_list')) {
-            target.classList.remove('selected')
-            target.querySelector('.checkable').classList.remove("bg-green-700")
-            target.querySelector('.checkable').classList.add("bg-slate-300")
-        }
-    }
-
-    const selectDeliveryTime = (target) => {
-        if (target.classList.contains('delivery_list')) {
-            const amount = target.querySelector(".amount").innerHTML.replace(/,/g, '')
-            const deliveryTime = target.querySelector(".delivery_time").innerHTML
-
-            const checkoutInfo = { cart: cart, deliveryFee: amount, deliveryTime: deliveryTime }
-
-            localStorage.setItem('checkout_info', JSON.stringify(checkoutInfo))
-            goToPaymemtIntruction()
-
-            setPayment(checkoutInfo)
-        }
-    }
 
     return (<>
         <StickyMobileHeader cart={cart} siteData={siteData} setSiteData={setSiteData} />
@@ -188,7 +149,7 @@ function Checkout() {
                                             </p>
 
 
-                                            <ul onClick={(e) => selectDeliveryTime(e.target)} className='list-decimal divide-y divide-slate-400'>
+                                            <ul onClick={(e) => selectDeliveryTime(e.target, setPayment)} className='list-decimal divide-y divide-slate-400'>
                                                 <li
                                                     className='flex  justify-between p-2'>
                                                     <span>Delivery Time</span>
