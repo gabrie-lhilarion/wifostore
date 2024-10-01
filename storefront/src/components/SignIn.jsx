@@ -81,12 +81,12 @@ function SignIn({ toggle, setSiteData }) {
     return (
         <section id='login' className=''>
 
-            <div className='lg:w-[500px] p-3 w-[90%] ml-auto mr-auto mb-12 mt-3 bg-slate-500'>
+            <div className='lg:w-[500px] p-3 w-[90%] ml-auto mr-auto mb-12 mt-14 bg-slate-500'>
                 <p className='flex relative justify-end leading-[50px]'>
                     <span
                         onClick={hideOverLay}
                         className='w-[60px] border-slate-500 bg-white border-2 h-[60px] cursor-pointer 
-                        block rounded-full font-extrabold  text-black text-center  text-[2em]'>
+                        block rounded-full font-extrabold  text-black text-center  text-[2em] top-6'>
                         &times;
                     </span>
                 </p>

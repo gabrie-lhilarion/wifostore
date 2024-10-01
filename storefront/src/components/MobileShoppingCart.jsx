@@ -45,8 +45,8 @@ function MobileShoppingCart({ cart, siteData, setSiteData }) {
                     </li>))}
                     {cart.length > 0 && <p className='pt-2'> Cart Total:  &#8358;{(cartTotal()).toFixed(2)} </p>}
                 </ul>
-                {cart.length > 0 && <p className='flex justify-between border-2 p-2 border-t-slate-200'>
-                    <button className='p-2 bg-slate-500 text-slate-100'> edit cart </button>
+                {cart.length > 0 && <p className='flex justify-end border-2 p-2 border-t-slate-200'>
+                    {/* <button className='p-2 bg-slate-500 text-slate-100'> edit cart </button> */}
                     <button className='p-2 bg-slate-500 text-slate-100'> Checkout </button>
                 </p>}
 

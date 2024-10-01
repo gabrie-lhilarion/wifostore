@@ -16,7 +16,7 @@ import React, { useState } from 'react';
  * or navigation, offering a smooth user experience.
  */
 
-function Login({ toggle }) {
+function Login({ toggle, setSiteData }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -28,7 +28,7 @@ function Login({ toggle }) {
         const loginData = { email, password };
 
         try {
-            const response = await fetch('https://wifostore.onrender.com/login', {
+            const response = await fetch('http://localhost:3000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,8 +38,14 @@ function Login({ toggle }) {
 
             const data = await response.json();
             if (response.ok) {
-                console.log('Login successful:', data);
-                // Handle success, e.g., redirect or load data
+
+                // Handle success -> get current user,update localStorage, update siteData, remove Overlay
+                const { currentUser } = data
+                localStorage.setItem('wifostore_user', JSON.stringify(currentUser))
+
+                setSiteData((siteData) => ({ ...siteData, currentUser: currentUser }))
+                document.getElementById('overlay').classList.add('hidden');
+
                 setError(null);
             } else {
                 // Handle server-side errors
@@ -63,11 +69,11 @@ function Login({ toggle }) {
     return (
         <section id='login' className=''>
 
-            <div className='lg:w-[500px] p-3 w-[90%] ml-auto mr-auto mb-12 mt-6 bg-slate-500'>
+            <div className='lg:w-[500px] p-3 w-[90%] ml-auto mr-auto mb-12 mt-12 bg-slate-500'>
                 <p className='flex relative justify-end leading-[50px]'>
                     <span
                         onClick={hideOverLay}
-                        className='w-[60px] border-slate-500 bg-white border-2 h-[60px] cursor-pointer block rounded-full font-extrabold  text-black text-center  text-[2em]'>
+                        className='w-[60px] border-slate-500 bg-white border-2 h-[60px] top-[30px] cursor-pointer block rounded-full font-extrabold  text-black text-center  text-[2em]'>
                         &times;
                     </span>
                 </p>

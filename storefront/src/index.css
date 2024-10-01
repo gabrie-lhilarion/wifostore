@@ -61,3 +61,7 @@ body {
     border: solid 1px #666;
     border-bottom: none;
 }
+
+.selected {
+    background-color: aquamarine;
+}

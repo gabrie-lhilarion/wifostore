@@ -66,8 +66,8 @@ function UserAndCart({ cart, setSiteData }) {
 
                     </ul>
 
-                    {cart.length > 0 && <p className='flex justify-between border-2 p-2 border-t-slate-200'>
-                        <button className='p-2 bg-slate-500 text-slate-100'> edit cart </button>
+                    {cart.length > 0 && <p className='flex justify-end border-2 p-2 border-t-slate-200'>
+                        {/* <button className='p-2 bg-slate-500 text-slate-100'> edit cart </button> */}
                         <Link to='/checkout' className='p-2 bg-slate-500 text-slate-100'> Checkout </Link>
                     </p>}
                 </section>
