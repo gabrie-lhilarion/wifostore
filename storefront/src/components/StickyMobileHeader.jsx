@@ -23,7 +23,13 @@ const toggleShoppingCart = () => {
 const toggleMobileMenu = () => document.getElementById('mobile-menu').classList.toggle('hidden')
 
 function StickyMobileHeader({ cart, siteData, setSiteData }) {
+
+    const currentUser = JSON.parse(localStorage.getItem('wifostore_user')) || []
+
+    const showInitials = (user) => `${user.first_name[0]} ${user.last_name[0]}`
+
     const totalItemsInCart = () => cart.reduce((current, previous) => previous.quantity + current, 0)
+
     return (
         <section style={{ zIndex: '20000' }} className='top-of-main h-[50px] bg-slate-400 lg:w-[75%] lg:hidden w-[100%] fixed'>
             <div className='flex justify-between'>
@@ -34,7 +40,7 @@ function StickyMobileHeader({ cart, siteData, setSiteData }) {
                             Wifostore
                         </span>
                     </p>
-                    <div id='mobile-menu' className='flex flex-col justify-between bg-slate-500 w-[100vw] h-[95vh] left-0'>
+                    <div id='mobile-menu' className='flex hidden flex-col justify-between bg-slate-500 w-[100vw] h-[95vh] left-0'>
                         <div>
                             <h1 className='text-right p-3 font-bold '>WIFOSTORE</h1>
 
@@ -47,9 +53,10 @@ function StickyMobileHeader({ cart, siteData, setSiteData }) {
                     </div>
                 </div>
                 <ul className='flex mr-6'>
-                    <li onClick={showOverLay} className=' flex p-3'>
-                        Guest
-                    </li>
+                    {Object.keys(currentUser).length === 0 ?
+                        <li onClick={showOverLay} className=' flex p-3'>Guest </li> :
+                        <li className=' flex p-3 bg-white mt-[1.25px]'> {showInitials(currentUser)} </li>}
+
                     <li onClick={toggleShoppingCart} className='p-3  rounded-full mt-[0.5px] cursor-pointer relative'>
                         <span className='absolute top-[-1px] right-[-10px] text-white bg-slate-800 w-[30px] text-center rounded-full shadow-lg'>
                             {totalItemsInCart()}

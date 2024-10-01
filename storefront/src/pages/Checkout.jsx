@@ -9,8 +9,12 @@ import {
 } from '../utils/cart'
 
 function Checkout() {
+
     const [siteData, setSiteData] = useOutletContext()
+    const [payment, setPayment] = useState({})
     const { cart } = siteData
+    const currentUser = JSON.parse(localStorage.getItem('wifostore_user')) || []
+    console.log(currentUser)
 
     const goToDelivery = () => {
         document.getElementById('step-1').classList.add('hidden')
@@ -21,6 +25,45 @@ function Checkout() {
         document.getElementById('overlay').classList.remove('hidden')
     }
 
+    const goToPaymemtIntruction = () => {
+        document.getElementById('step-2').classList.add('hidden')
+        document.getElementById('step-3').classList.remove('hidden')
+    }
+
+
+    const shoppingCarts = document.querySelectorAll('.shopping-cart')
+    shoppingCarts.forEach(cart => cart.classList.add('hidden'))
+
+    const showSelect = (target) => {
+        if (target.classList.contains('delivery_list')) {
+            target.parentElement.querySelectorAll('.delivery_list').forEach(selector => selector.classList.remove('selected'))
+            target.querySelector('.checkable').classList.remove("bg-slate-300")
+            target.querySelector('.checkable').classList.add("bg-green-700")
+            target.classList.add('selected')
+        }
+    }
+
+    const hideSelect = (target) => {
+        if (target.classList.contains('delivery_list')) {
+            target.classList.remove('selected')
+            target.querySelector('.checkable').classList.remove("bg-green-700")
+            target.querySelector('.checkable').classList.add("bg-slate-300")
+        }
+    }
+
+    const selectDeliveryTime = (target) => {
+        if (target.classList.contains('delivery_list')) {
+            const amount = target.querySelector(".amount").innerHTML.replace(/,/g, '')
+            const deliveryTime = target.querySelector(".delivery_time").innerHTML
+
+            const checkoutInfo = { cart: cart, deliveryFee: amount, deliveryTime: deliveryTime }
+
+            localStorage.setItem('checkout_info', JSON.stringify(checkoutInfo))
+            goToPaymemtIntruction()
+
+            setPayment(checkoutInfo)
+        }
+    }
 
     return (<>
         <StickyMobileHeader cart={cart} siteData={siteData} setSiteData={setSiteData} />
@@ -112,13 +155,21 @@ function Checkout() {
                                     Step 2
                                 </span>  Delivery Details
                             </h1>
-                            <p id='step-2' className='accordion-content hidden bg-slate-100 p-4'>
-                                <ul className='flex tabs relative h-[48px]'>
+                            <div id='step-2' className='accordion-content hidden bg-slate-100 p-4'>
+
+
+                                {Object.keys(currentUser).length === 0 ? <ul className='flex tabs relative h-[48px]'>
                                     <li className='p-2  m-2 mb-0 bordered bg-slate-100 absolute bottom-[-2px]'>Guest</li>
                                     <li className='p-2  m-2 mb-0 bordered absolute left-[70px]'>Customer</li>
-                                </ul>
+                                </ul> :
+                                    <ul className='flex tabs relative h-[48px]'>
+                                        <li className='p-2  m-2 mb-2 bordered bg-slate-100 absolute'>Guest</li>
+                                        <li className='p-2  m-2 mb-0 bordered bg-slate-50  absolute left-[70px]  bottom-[-1.5px]'>Customer</li>
+                                    </ul>}
+
+
                                 <div className='tabs-content  border-t-2 border-slate-400'>
-                                    <div id='guest' className='h-[200px] grid place-items-center'>
+                                    {Object.keys(currentUser).length === 0 ? <div id='guest' className='h-[200px] grid place-items-center'>
                                         <p className='bg-white p-3 leading-5'>
                                             <button onClick={showOverLay} className='p-2 m-3 inline-block bg-slate-600 rounded-sm text-slate-100'
                                                 type="button">
@@ -129,13 +180,73 @@ function Checkout() {
                                             Thank you!
 
                                         </p>
+                                    </div> : <div id='customer' className='min-h-[200px]  grid place-items-center'>
+                                        <div className='bg-white p-6 leading-5'>
+                                            <p className='bg-red-100 p-3'>
+                                                To be delivered you <strong> {currentUser.first_name}  {currentUser.last_name}.  <br /> </strong>
+                                                We will use your address on our records.
+                                            </p>
 
-                                    </div>
-                                    <div id='guest' className='hidden '>
-                                        Customer Content
-                                    </div>
+
+                                            <ul onClick={(e) => selectDeliveryTime(e.target)} className='list-decimal divide-y divide-slate-400'>
+                                                <li
+                                                    className='flex  justify-between p-2'>
+                                                    <span>Delivery Time</span>
+                                                    <span > Delivery fee </span>
+                                                </li>
+                                                <li
+                                                    onMouseLeave={(e) => hideSelect(e.target)}
+                                                    onMouseEnter={(e) => showSelect(e.target)}
+                                                    className='flex delivery_list justify-between p-2'>
+                                                    <span className='delivery_time'> Within 24 hrs </span>
+                                                    <span>
+                                                        &#8358;<em className='amount'>5,500</em>
+                                                        <em className='checkable inline-block ml-2 text-center w-[40px] text-sm font-extrabold p-1 rounded-sm bg-slate-300 text-white'> &#10003; </em>
+
+                                                    </span>
+                                                </li>
+                                                <li
+                                                    onMouseLeave={(e) => hideSelect(e.target)}
+                                                    onMouseEnter={(e) => showSelect(e.target)}
+                                                    className='flex delivery_list justify-between p-2'>
+                                                    <span className='delivery_time'> Within 2 days </span>
+                                                    <span>
+                                                        &#8358;<em className='amount'>2,500</em>
+                                                        <em className='checkable inline-block ml-2 text-center w-[40px] text-sm font-extrabold p-1 rounded-sm bg-slate-300 text-white'> &#10003; </em>
+                                                    </span>
+                                                </li>
+                                                <li
+                                                    onMouseLeave={(e) => hideSelect(e.target)}
+                                                    onMouseEnter={(e) => showSelect(e.target)}
+                                                    className='flex delivery_list justify-between p-2'>
+                                                    <span className='delivery_time'>  Within 1 week </span>
+                                                    <span>
+                                                        &#8358;<em className='amount'>1,500</em>
+                                                        <em className='checkable inline-block ml-2 text-center w-[40px] text-sm font-extrabold p-1 rounded-sm bg-slate-300 text-white'> &#10003; </em>
+                                                    </span>
+                                                </li>
+                                                <li
+                                                    onMouseLeave={(e) => hideSelect(e.target)}
+                                                    onMouseEnter={(e) => showSelect(e.target)} className='flex delivery_list justify-between p-2'>
+                                                    <span className='delivery_time'>  Within 1 month </span>
+                                                    <span>
+                                                        &#8358;<em className='amount'>500</em>
+                                                        <em className='checkable inline-block ml-2 text-center w-[40px] text-sm font-extrabold p-1 rounded-sm bg-slate-300 text-white'> &#10003; </em>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                            <p className='p-4 flex justify-between'>
+                                                <button className='p-3 bg-slate-600 text-slate-100' type="button">Give new address</button>
+                                                <button onClick={goToPaymemtIntruction} className='p-3 ml-20 bg-red-100 text-slate-800' type="button">Continue to payment instruction</button>
+                                            </p>
+
+                                        </div>
+                                    </div>}
+
+
+
                                 </div>
-                            </p>
+                            </div>
                         </div>
                         <div className='accordion-item rounded-tl-sm rounded-tr-sm'>
                             <h1 className='accordion-header p-3 bg-slate-200 rounded-tl-sm rounded-tr-sm'>
@@ -145,33 +256,79 @@ function Checkout() {
                                 </span>  Payment instructions
                             </h1>
                             <div id='step-3' className='accordion-content hidden bg-slate-100 p-4'>
-                                <ul className='flex tabs relative h-[48px]'>
-                                    <li className='p-2  m-2 mb-0 bordered bg-slate-100 absolute bottom-[-1px]'>Guest</li>
-                                    <li className='p-2  m-2 mb-0 bordered absolute left-[70px]'>Customer</li>
-                                </ul>
-                                <div className='tabs-content border-t-2 border-slate-400'>
-                                    <div id='guest' className='h-[150px] grid place-items-center'>
-                                        <div className='bg-white p-3 leading-5'>
-                                            <h2 className='text-center text-lg font-bold'>Login or Create an account</h2>
-                                            We are sorry that you cannot complete your purchase as a guest.
-                                            Our engineers are working to implement this feature as soon as possible.<br />
-                                            Thank you!
-                                        </div>
-                                    </div>
-                                    <div id='guest' className='hidden '>
-                                        Customer Content
+
+                                <div id='guest' className='min-h-[150px] grid place-items-center'>
+                                    <div className='bg-white p-3 leading-5'>
+                                        <h2 className='text-2xl text-center p-3'>Be mindfull of the following instruction</h2>
+                                        <ul className='text-sm list-decimal p-4'>
+                                            <li>
+                                                Make sure the card is your card, we will check if the card holders name is your name
+                                            </li>
+                                            <li>
+                                                During the payment proccess please don't close the window
+                                            </li>
+                                            <li>
+                                                Your payment will be proccessed instantly
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div >
 
                 <div className='lg:w-[39%]'>
-                    <p className='lg:bg-red-100 payment-proccessor rounded-md p-4 bg-slate-300'>
 
+
+                    <h1 className='text-2xl text-center bg-slate-400 rounded-tr-md rounded-tl-md'>
                         Make Payment
-                    </p>
+                    </h1>
+                    {Object.keys(payment).length === 0 ? <div className='bg-red-100 payment-proccessor grid place-items-center h-[200px]'><p
+                        className=' rounded-md p-4 font-extrabold'>
+                        ...Waiting for payment details</p></div> :
+                        <div className=' payment-proccessor p-3 '>
+                            <table className='w-full divide-y divide-slate-400'>
+                                <thead>
+                                    <tr className='font-bold'>
+                                        <td>Item </td>
+                                        <td>Qauntity </td>
+                                        <td>Price </td>
+                                        <td>Item ttl </td>
+                                    </tr>
+                                </thead>
+                                {payment.cart.map(item => <tr className='p-2'>
+                                    <td className='p-2'>  {item.size} {item.product_name} </td>
+                                    <td className='p-2'>  {item.quantity} </td>
+                                    <td className='p-2'>  {item.price} </td>
+                                    <td className='p-2'> &#8358;{+item.quantity * +item.price} </td>
+                                </tr>
+                                )}
+                                <tr>
+                                    <td className='text-right font-bold bg-green-100 p-2' colspan={4}>
+                                        <span style={{ float: 'left' }}> Sub total </span>
+                                        <span></span> &#8358; {payment.cart.reduce((previous, current) => (+current.quantity * +current.price) + previous, 0)}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='text-right font-bold bg-green-100 p-2' colspan={4}>
+                                        <span style={{ float: 'left' }}> Delivery </span>
+                                        &#8358;{Number(payment.deliveryFee).toFixed(2)}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='text-right font-bold bg-green-100 p-2' colspan={4}>
+                                        <span style={{ float: 'left' }}> Grand Total </span>
+                                        &#8358;{+payment.deliveryFee + (payment.cart.reduce((previous, current) => (+current.quantity * +current.price) + previous, 0))}
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    }
+
                 </div>
 
             </div >
