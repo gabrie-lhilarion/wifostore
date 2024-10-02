@@ -9,7 +9,7 @@ const pricelist_loader = async ({ params }) => {
 
     try {
         // Construct the API endpoint using the provided item ID
-        const apiUrl = `https://wifostore.onrender.com/items/${id}`;
+        const apiUrl = `http://localhost:3000/items/${id}`;
 
         // Fetch the price list for the specific item
         const response = await fetch(apiUrl);
