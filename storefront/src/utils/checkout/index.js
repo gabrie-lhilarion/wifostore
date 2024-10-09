@@ -1,3 +1,4 @@
+
 export const goToDelivery = () => {
     document.getElementById('step-1').classList.add('hidden')
     document.getElementById('step-2').classList.remove('hidden')
@@ -33,16 +34,23 @@ export const hideSelect = (target) => {
     }
 }
 
-export const selectDeliveryTime = (target, setPayment) => {
-    if (target.classList.contains('delivery_list')) {
-        const amount = target.querySelector(".amount").innerHTML.replace(/,/g, '')
-        const deliveryTime = target.querySelector(".delivery_time").innerHTML
+export const selectDeliveryTime = (amount, deliveryTime, setPayment, cart) => {
 
-        const checkoutInfo = { cart: cart, deliveryFee: amount, deliveryTime: deliveryTime }
+    const checkoutInfo = { cart: cart, deliveryFee: amount, deliveryTime: deliveryTime }
+    localStorage.setItem('checkout_info', JSON.stringify(checkoutInfo))
+    goToPaymemtIntruction()
 
-        localStorage.setItem('checkout_info', JSON.stringify(checkoutInfo))
-        goToPaymemtIntruction()
+    setPayment(checkoutInfo)
 
-        setPayment(checkoutInfo)
-    }
 }
+
+// Utility function for debouncing
+export const debounce = (func, delay) => {
+    let timer;
+    return function (...args) {
+        const context = this;
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(context, args), delay);
+    };
+};
+

@@ -66,7 +66,7 @@ function Checkout() {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className='text-right font-bold bg-green-100 p-2' colspan={4}>
+                                    <td className='text-right font-bold bg-green-100 p-2' colSpan={4}>
                                         <span style={{ float: 'left' }}> Grand Total </span>
                                         &#8358;{+payment.deliveryFee + (payment.cart.reduce((previous, current) => (+current.quantity * +current.price) + previous, 0))}
                                     </td>

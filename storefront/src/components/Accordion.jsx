@@ -28,7 +28,7 @@ function Accordion({ setPayment, cart, setSiteData }) {
                             Step 2
                         </span>  Delivery Details
                     </h1>
-                    <StepTwo setPayment={setPayment} />
+                    <StepTwo setPayment={setPayment} cart={cart} />
                 </div>
 
                 <div className='accordion-item rounded-tl-sm rounded-tr-sm'>

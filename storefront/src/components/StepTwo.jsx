@@ -1,112 +1,119 @@
-import React from 'react'
-
-
+import React from 'react';
 import {
     showOverLay,
     goToPaymemtIntruction,
     hideSelect,
     showSelect,
-    selectDeliveryTime
-} from '../utils/checkout'
+    selectDeliveryTime,
+    debounce
+} from '../utils/checkout';
+
+import { DeliveryOption } from '.'
+
+const debouncedShowSelect = debounce(showSelect, 100);
+const debouncedHideSelect = debounce(hideSelect, 100);
 
 
-function StepTwo({ setPayment }) {
-    const currentUser = JSON.parse(localStorage.getItem('wifostore_user')) || []
+function StepTwo({ setPayment, cart }) {
+    const currentUser = JSON.parse(localStorage.getItem('wifostore_user')) || {};
+    const isGuest = Object.keys(currentUser).length === 0;
+
+    const deliveryOptions = [
+        { time: 'Within 24 hrs', fee: '5500' },
+        { time: 'Within 2 days', fee: '2500' },
+        { time: 'Within 1 week', fee: '1500' },
+        { time: 'Within 1 month', fee: '500' }
+    ];
+
     return (
         <div id='step-2' className='accordion-content hidden bg-slate-100 p-4'>
+            <ul className='flex tabs relative h-[48px]'>
+                <li className={`p-2 m-2 mb-0 bordered bg-slate-${isGuest ? '100' : '50'} absolute`}>Guest</li>
+                <li className={`p-2 m-2 mb-0 bordered absolute left-[70px] bg-slate-${isGuest ? '100' : '50'} bottom-[-1.5px]`}>Customer</li>
+            </ul>
 
-
-            {Object.keys(currentUser).length === 0 ? <ul className='flex tabs relative h-[48px]'>
-                <li className='p-2  m-2 mb-0 bordered bg-slate-100 absolute bottom-[-2px]'>Guest</li>
-                <li className='p-2  m-2 mb-0 bordered absolute left-[70px]'>Customer</li>
-            </ul> :
-                <ul className='flex tabs relative h-[48px]'>
-                    <li className='p-2  m-2 mb-2 bordered bg-slate-100 absolute'>Guest</li>
-                    <li className='p-2  m-2 mb-0 bordered bg-slate-50  absolute left-[70px]  bottom-[-1.5px]'>Customer</li>
-                </ul>}
-
-
-            <div className='tabs-content  border-t-2 border-slate-400'>
-                {Object.keys(currentUser).length === 0 ? <div id='guest' className='h-[200px] grid place-items-center'>
-                    <p className='bg-white p-3 leading-5'>
-                        <button onClick={showOverLay} className='p-2 m-3 inline-block bg-slate-600 rounded-sm text-slate-100'
-                            type="button">
-                            Login or create account
-                        </button> <br />
-                        We are sorry that you cannot complete your purchase as a guest.
-                        Our engineers are working to implement this feature as soon as possible.<br />
-                        Thank you!
-
-                    </p>
-                </div> : <div id='customer' className='min-h-[200px]  grid place-items-center'>
-                    <div className='bg-white p-6 leading-5'>
-                        <p className='bg-red-100 p-3'>
-                            To be delivered you <strong> {currentUser.first_name}  {currentUser.last_name}.  <br /> </strong>
-                            We will use your address on our records.
+            <div className='tabs-content border-t-2 border-slate-400'>
+                {isGuest ? (
+                    <div id='guest' className='h-[200px] grid place-items-center'>
+                        <p className='bg-white p-3 leading-5'>
+                            <button onClick={showOverLay} className='p-2 m-3 inline-block bg-slate-600 rounded-sm text-slate-100'>
+                                Login or create account
+                            </button>
+                            <br />
+                            We are sorry that you cannot complete your purchase as a guest.
+                            Our engineers are working to implement this feature as soon as possible.
+                            Thank you!
                         </p>
-
-
-                        <ul onClick={(e) => selectDeliveryTime(e.target, setPayment)} className='list-decimal divide-y divide-slate-400'>
-                            <li
-                                className='flex  justify-between p-2'>
-                                <span>Delivery Time</span>
-                                <span > Delivery fee </span>
-                            </li>
-                            <li
-                                onMouseLeave={(e) => hideSelect(e.target)}
-                                onMouseEnter={(e) => showSelect(e.target)}
-                                className='flex delivery_list justify-between p-2'>
-                                <span className='delivery_time'> Within 24 hrs </span>
-                                <span>
-                                    &#8358;<em className='amount'>5,500</em>
-                                    <em className='checkable inline-block ml-2 text-center w-[40px] text-sm font-extrabold p-1 rounded-sm bg-slate-300 text-white'> &#10003; </em>
-
-                                </span>
-                            </li>
-                            <li
-                                onMouseLeave={(e) => hideSelect(e.target)}
-                                onMouseEnter={(e) => showSelect(e.target)}
-                                className='flex delivery_list justify-between p-2'>
-                                <span className='delivery_time'> Within 2 days </span>
-                                <span>
-                                    &#8358;<em className='amount'>2,500</em>
-                                    <em className='checkable inline-block ml-2 text-center w-[40px] text-sm font-extrabold p-1 rounded-sm bg-slate-300 text-white'> &#10003; </em>
-                                </span>
-                            </li>
-                            <li
-                                onMouseLeave={(e) => hideSelect(e.target)}
-                                onMouseEnter={(e) => showSelect(e.target)}
-                                className='flex delivery_list justify-between p-2'>
-                                <span className='delivery_time'>  Within 1 week </span>
-                                <span>
-                                    &#8358;<em className='amount'>1,500</em>
-                                    <em className='checkable inline-block ml-2 text-center w-[40px] text-sm font-extrabold p-1 rounded-sm bg-slate-300 text-white'> &#10003; </em>
-                                </span>
-                            </li>
-                            <li
-                                onMouseLeave={(e) => hideSelect(e.target)}
-                                onMouseEnter={(e) => showSelect(e.target)} className='flex delivery_list justify-between p-2'>
-                                <span className='delivery_time'>  Within 1 month </span>
-                                <span>
-                                    &#8358;<em className='amount'>500</em>
-                                    <em className='checkable inline-block ml-2 text-center w-[40px] text-sm font-extrabold p-1 rounded-sm bg-slate-300 text-white'> &#10003; </em>
-                                </span>
-                            </li>
-                        </ul>
-                        <p className='p-4 flex justify-between'>
-                            <button className='p-3 bg-slate-600 text-slate-100' type="button">Give new address</button>
-                            <button onClick={goToPaymemtIntruction}
-                                className='p-3 ml-20 bg-red-100 text-slate-800' type="button">Continue to payment instruction</button>
-                        </p>
-
                     </div>
-                </div>}
+                ) : (
+                    <div id='customer' className='min-h-[200px]'>
+                        <div className='bg-white p-6 leading-5'>
+                            <div className='bg-slate-200 p-3 text-center'>
+                                To be delivered to <strong>{currentUser.first_name} {currentUser.last_name}</strong>.<br />
+                                We will use your address on our records.
+                                <div className=' mt-2'>
+
+                                    <button
+                                        className='p-2 m-auto mt-3 text-slate-100 block rounded-full bg-slate-500'>
+                                        No, deliver to another address
+                                    </button>
+
+                                    <form className='w-full mt-3  divide-y divide-slate-400'>
+                                        <p>
+                                            <input className="w-full p-2" type="text" name="full-name" placeholder="Enter fullname" />
+                                        </p>
+                                        <p>
+
+                                            <input className="w-full p-2" type="text" name="phone-number" placeholder="Enter phone number" />
+
+                                        </p>
+                                        <p>
 
 
+                                            <textarea className="w-full p-2" name="full-address" placeholder='Please enter full address'></textarea>
 
+                                            <button className='p-3 bg-slate-500 mt-3 text-slate-100' type="button">
+                                                Ok with this
+                                            </button>
+                                        </p>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                            <div className='p-2 text-right bg-slate-100'>
+                                <ul className='list-decimal divide-y divide-slate-400'>
+                                    <h1 className='text-xl font-bold'>
+                                        Choose delivery time
+                                    </h1>
+                                    {deliveryOptions.map(option => (
+                                        <DeliveryOption
+                                            key={option.time}
+                                            time={option.time}
+                                            fee={option.fee}
+                                            onSelect={selectDeliveryTime}
+                                            setPayment={setPayment}
+                                            cart={cart}
+
+                                        />
+                                    ))}
+                                </ul>
+                            </div>
+
+
+                            <p className='p-4 '>
+
+                                <button onClick={goToPaymemtIntruction} className='p-3 ml-20 bg-red-100 text-slate-800'>
+                                    Continue to payment instruction
+                                </button>
+                            </p>
+
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
-    )
+    );
 }
 
-export default StepTwo
+export default StepTwo;
