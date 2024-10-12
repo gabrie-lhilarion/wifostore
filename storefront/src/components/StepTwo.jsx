@@ -2,21 +2,26 @@ import React from 'react';
 import {
     showOverLay,
     goToPaymemtIntruction,
-    hideSelect,
-    showSelect,
-    selectDeliveryTime,
-    debounce
+    selectDeliveryTime
 } from '../utils/checkout';
 
 import { DeliveryOption } from '.'
-
-const debouncedShowSelect = debounce(showSelect, 100);
-const debouncedHideSelect = debounce(hideSelect, 100);
 
 
 function StepTwo({ setPayment, cart }) {
     const currentUser = JSON.parse(localStorage.getItem('wifostore_user')) || {};
     const isGuest = Object.keys(currentUser).length === 0;
+
+    const useNewAddreess = () => {
+        const form = document.getElementById("new-add-form")
+        const newDetails = {
+            funllName: form.full_name.value,
+            phoneNumber: form.phone_number.value,
+            fullAddress: form.full_address.value
+        }
+
+        console.log(newDetails)
+    }
 
     const deliveryOptions = [
         { time: 'Within 24 hrs', fee: '5500' },
@@ -58,22 +63,25 @@ function StepTwo({ setPayment, cart }) {
                                         No, deliver to another address
                                     </button>
 
-                                    <form className='w-full mt-3  divide-y divide-slate-400'>
+                                    <form id="new-add-form" className='w-full mt-3  divide-y divide-slate-400'>
                                         <p>
-                                            <input className="w-full p-2" type="text" name="full-name" placeholder="Enter fullname" />
+                                            <input className="w-full p-2" type="text" name="full_name" placeholder="Enter fullname" />
                                         </p>
                                         <p>
 
-                                            <input className="w-full p-2" type="text" name="phone-number" placeholder="Enter phone number" />
+                                            <input className="w-full p-2" type="text" name="phone_number" placeholder="Enter phone number" />
 
                                         </p>
                                         <p>
 
 
-                                            <textarea className="w-full p-2" name="full-address" placeholder='Please enter full address'></textarea>
+                                            <textarea className="w-full p-2" name="full_address" placeholder='Please enter full address'></textarea>
 
-                                            <button className='p-3 bg-slate-500 mt-3 text-slate-100' type="button">
-                                                Ok with this
+                                            <button
+                                                onClick={useNewAddreess}
+                                                className='p-3 bg-slate-500 mt-3 rounded-full text-slate-100'
+                                                type="button">
+                                                DONE
                                             </button>
                                         </p>
                                     </form>

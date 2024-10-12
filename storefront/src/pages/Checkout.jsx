@@ -60,7 +60,7 @@ function Checkout() {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className='text-right font-bold bg-green-100 p-2' colspan={4}>
+                                    <td className='text-right font-bold bg-green-100 p-2' colSpan={4}>
                                         <span style={{ float: 'left' }}> Delivery </span>
                                         &#8358;{Number(payment.deliveryFee).toFixed(2)}
                                     </td>
