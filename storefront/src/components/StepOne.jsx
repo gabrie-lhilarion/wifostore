@@ -8,6 +8,7 @@ import {
 } from '../utils/cart'
 
 
+
 import {
     goToDelivery
 } from '../utils/checkout'
@@ -26,7 +27,7 @@ function StepOne({ cart, setSiteData }) {
             {cart.length > 0 && cart.map((item) => <div key={item.item_id} className='flex justify-between pt-2'>
                 <div className='flex'>
                     <p className='w-[100px] p-2 m-2'>
-                        {< img src={item.product_image_url} alt="" />}
+                        {<img src={item.product_image_url} alt="" />}
 
                     </p>
 
@@ -48,6 +49,7 @@ function StepOne({ cart, setSiteData }) {
                             <input
                                 className='w-[30px] h-[30px] text-center'
                                 type="text"
+                                onChange={() => getQuantity(item.item_id, cart)}
                                 value={getQuantity(item.item_id, cart)} />
                             <span
                                 onClick={() => plusQuantity(item.item_id, cart, setSiteData)}

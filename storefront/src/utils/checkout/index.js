@@ -36,8 +36,16 @@ export const hideSelect = (target) => {
 
 export const selectDeliveryTime = (amount, deliveryTime, setPayment, cart) => {
 
-    const checkoutInfo = { cart: cart, deliveryFee: amount, deliveryTime: deliveryTime }
+    const currentUser = JSON.parse(localStorage.getItem('wifostore_user')) || {}
+
+    const deliveryDetail = JSON.parse(localStorage.getItem('delivery_details')) || {}
+
+    const checkoutInfo = { cart, deliveryFee: amount, deliveryTime, currentUser, deliveryDetail }
+
+    console.log({ checkoutInfo })
+
     localStorage.setItem('checkout_info', JSON.stringify(checkoutInfo))
+
     goToPaymemtIntruction()
 
     setPayment(checkoutInfo)

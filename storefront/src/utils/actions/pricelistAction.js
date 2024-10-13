@@ -28,7 +28,7 @@ export const priceListAction = async ({ request }) => {
         });
 
         // Make the POST request to the backend with the product details
-        const response = await fetch('http://your-server-url.com/api/add-product-detail', {
+        const response = await fetch('https://wifostore.onrender.com/add-product-detail', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(productDetails)
