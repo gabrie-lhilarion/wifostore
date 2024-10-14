@@ -53,7 +53,7 @@ function Root() {
                                 <Logo />
                                 <UserAndCart cart={cart} setSiteData={setSiteData} />
                                 <SearchProducts />
-                                <SideNavigation productCategories={siteData.categories} />
+                                <SideNavigation productCategories={siteData.categories} products={siteData.products} />
                             </div>
                             <Footer />
                         </div>

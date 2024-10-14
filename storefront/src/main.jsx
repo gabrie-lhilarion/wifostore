@@ -16,6 +16,7 @@ import {
   Admin,
   PriceList,
   Checkout,
+  Categories,
   Home
 } from "./pages";
 
@@ -43,7 +44,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/edit-cart"
+        path: "/categories/:category-name",
+        element: <Categories />
       },
       {
         path: "/checkout",
