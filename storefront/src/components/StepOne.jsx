@@ -8,11 +8,13 @@ import {
 } from '../utils/cart'
 
 
+
 import {
     goToDelivery
 } from '../utils/checkout'
 
 function StepOne({ cart, setSiteData }) {
+    // const [qauntity, set] = React.useState()
     return (
         <article id='step-1' className='accordion-content bg-slate-100 divide-y divide-slate-300'>
             {cart.length === 0 && <div className='grid place-items-center h-[150px]'>
@@ -25,14 +27,15 @@ function StepOne({ cart, setSiteData }) {
             {cart.length > 0 && cart.map((item) => <div key={item.item_id} className='flex justify-between pt-2'>
                 <div className='flex'>
                     <p className='w-[100px] p-2 m-2'>
-                        {< img src={item.product_image_url} alt="" />}
+                        {<img src={item.product_image_url} alt="" />}
 
                     </p>
 
-                    <p className='text-2xl'>
+                    <p className='text-md'>
                         <strong> {item.product_name} </strong> <br />
-                        {item.size} <br />
-                        &#8358;{item.price}
+                        <strong> {item.size} </strong> <br />
+                        Price: <strong>{item.price}</strong> <br />
+                        Item Total:<strong> &#8358;{(+item.price * +item.quantity).toFixed(2)}</strong>
                     </p>
                 </div>
 
@@ -43,7 +46,11 @@ function StepOne({ cart, setSiteData }) {
                             <span
                                 onClick={() => minusQuantity(item.item_id, cart, setSiteData)}
                                 className='hover:bg-slate-600 cursor-pointer hover:text-slate-200 p-1 w-[60px] h=[60px]'>&minus;</span>
-                            <input className='w-[30px] h-[30px] text-center' type="text" value={getQuantity(item.item_id, cart)} />
+                            <input
+                                className='w-[30px] h-[30px] text-center'
+                                type="text"
+                                onChange={() => getQuantity(item.item_id, cart)}
+                                value={getQuantity(item.item_id, cart)} />
                             <span
                                 onClick={() => plusQuantity(item.item_id, cart, setSiteData)}
                                 className='hover:bg-slate-600 cursor-pointer hover:text-slate-200 p-1 w-[60px] h=[60px]'> &#x2B;

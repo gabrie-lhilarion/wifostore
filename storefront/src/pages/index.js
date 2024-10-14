@@ -5,4 +5,7 @@ export { default as AdminHome } from './AdminHome'
 export { default as AddProduct } from './AddProduct'
 export { default as PriceList } from './PriceList'
 export { default as Home } from './Home'
+export { default as Checkout } from './Checkout'
+export { default as Categories } from './Categories'
+
 

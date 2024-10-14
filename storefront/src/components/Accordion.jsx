@@ -3,9 +3,9 @@ import React from 'react'
 
 import { StepOne, StepTwo, StepThree } from '.'
 
-function Accordion({ setPayment, cart, setSiteData }) {
+function Accordion({ payment, setPayment, cart, setSiteData }) {
     const currentUser = JSON.parse(localStorage.getItem('wifostore_user')) || []
-    console.log(currentUser)
+
     return (
         <div className='lg:w-[59%] cart-details rounded-md bg-slate-200 rounded-tl-sm rounded-tr-sm'>
 
@@ -28,7 +28,7 @@ function Accordion({ setPayment, cart, setSiteData }) {
                             Step 2
                         </span>  Delivery Details
                     </h1>
-                    <StepTwo setPayment={setPayment} />
+                    <StepTwo setPayment={setPayment} cart={cart} />
                 </div>
 
                 <div className='accordion-item rounded-tl-sm rounded-tr-sm'>
@@ -36,9 +36,9 @@ function Accordion({ setPayment, cart, setSiteData }) {
                         <span
                             className='bg-slate-500 text-right text-slate-100 text-sm p-2 m-2 rounded-full'>
                             Step 3
-                        </span>  Payment instructions
+                        </span>  Payment summary
                     </h1>
-                    <StepThree />
+                    <StepThree payment={payment} />
                 </div>
             </div>
         </div >

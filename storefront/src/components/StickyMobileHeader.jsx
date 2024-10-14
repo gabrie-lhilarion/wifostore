@@ -44,7 +44,7 @@ function StickyMobileHeader({ cart, siteData, setSiteData }) {
                         <div>
                             <h1 className='text-right p-3 font-bold '>WIFOSTORE</h1>
 
-                            <SideNavigation productCategories={siteData.categories} />
+                            <SideNavigation productCategories={siteData.categories} products={siteData.products} />
 
                         </div>
 
