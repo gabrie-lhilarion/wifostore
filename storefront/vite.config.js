@@ -10,6 +10,6 @@ export default defineConfig({
     emptyOutDir: true,  // Ensures that the output directory is cleaned before each build
   },
   // uncomment base before build
-  base: '/storefront/'
+  //base: '/storefront/'
 })
 
